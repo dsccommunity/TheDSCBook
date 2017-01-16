@@ -1,6 +1,7 @@
 front-matter.md
 about-the-authors.md
 feedback.md
+a-note-on-code-listings.md
 introduction.md
 designing-dsc.md
 dsc-in-azure.md
