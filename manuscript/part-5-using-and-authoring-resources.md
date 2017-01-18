@@ -1,0 +1,2 @@
+-# Part 5: Using and Authoring Resources
+To this point, we've tried to stick with the simple, built-in resources that Microsoft provides. Eventually, you'll need to figure out what all of those are and how to use them, so we'll cover that next. And _eventually_, you'll probably run into some situation where the resource you need doesn't exist, so we'll also cover how to create your own.
