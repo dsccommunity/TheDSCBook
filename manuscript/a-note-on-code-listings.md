@@ -32,3 +32,6 @@ When _you_ write PowerShell code, you should not be limited by these constraints
 This is probably not a complete list, but breaking after any of these characters makes the most sense.
 
 Anyway, we apologize for these artifacts. 
+
+## Code Samples
+Longer code listings are available at http://github.com/concentrateddon/TheDSCBookCode. Shorter listings - because they're often not useful as-is - are not necessarily replicated there. We really mean for most of the code in this book to be _illustrations,_ not copy-and-paste usable.
