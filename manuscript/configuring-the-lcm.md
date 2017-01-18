@@ -133,7 +133,7 @@ configuration LCMConfig
 In this case, the [DSCLocalConfigurationManager()] bit tells PowerShell that this is to be a meta-MOF, which are generated somewhat differently than a normal configuration MOF. The name of the configuration, LCMConfig, is arbitrary. You simply need to specify that name - usually at the very bottom of the script file - to run the config and generate the MOF (it's basically like running a function). Within the Settings{} block is where you can put whatever settings you like from the list above.
 
 ## Deploying the LCM Configuration
-Once you've run that and generated a localhost.meta.mof, you can use Start-DscLocalConfigurationManager to "push" the meta-MOF to whatever node you want. There's no need to rename the file.
+Once you've run that and generated a localhost.meta.mof, you can use Set-DscLocalConfigurationManager to "push" the meta-MOF to whatever node you want. There's no need to rename the file.
 
 ```
 Set-DscLocalConfigurationManager -Path ./localhost.meta.mof -ComputerName NODE1,NODE2
