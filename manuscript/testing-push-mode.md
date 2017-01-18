@@ -57,9 +57,6 @@ In this example, the configuration name is PullServer, and the node's name is Pu
  * The "ConfigurationPath" setting is the location where the MOFs will be stored for download on the pull server.
  * The "ModulePath" setting is the location where the modules that are needed for a given configuration will be pulled from.
 
-To deploy this configuration to the pull server, run:
-Start-DscConfiguration -Path .\PullServer -Verbose -Wait
-
 ## Running the Configuration to Produce a MOF
 The configuration is compiled by loading the configuration into memory, and then executing it.  This is similar to a function, where a function is loaded and then the name of the function is invoked to call the function.  In the example, the configuration portion starts at the configuration keyword and ends at the final curly brace.  The last line (PullServer) invokes the configuration to create the MOF.  Compiling this configuration results in a Pull.MOF file located in the PullServer subdirectory of the current working directory.
 
