@@ -15,13 +15,13 @@ Find-module xPSDesiredStateConfiguration
 
 Note that you may be prompted to download a NuGet provider.
 
-Ensure that the module is found, and that the current version is the desired version (e.g., the latest). You could specify a specific version using the `-RequiredVersion` parameter, or list all versions using the `-AllVersions` parameter before choosing a version. This example is using the current version as of this writing, 5.1.0.0. Once you fine the module, install it:
+Ensure that the module is found, and that the current version is the desired version (e.g., the latest). You could specify a specific version using the `-RequiredVersion` parameter, or list all versions using the `-AllVersions` parameter before choosing a version. This example is using the current version as of this writing, 5.1.0.0. Once you find the module, install it:
 
 ```PowerShell
 Install-module xPSDesiredStateConfiguration
 ```
 
-The module will be placed in %systemdrive%\Program Files\WindowsPowershell\Modules, if you want to verify its existence. Once the module is installed, it can be used in the configuration. After the `Configuration` keyword, insert the following line so that you can use the xPSDesiredStateConfiguration module in the configuration.
+The module will be placed in %systemdrive%\Program Files\WindowsPowershell\Modules, if you want to verify its existence. Once the module is installed, you can use in the configuration. After the `Configuration` keyword, insert the following line:
 
 ```PowerShell
 Import-DscResource -ModuleName xPSDesiredStateConfiguration -ModuleVersion 5.1.0.0 
@@ -62,14 +62,11 @@ The configuration to set up a simple pull server is (and please, remember our ea
 
 In this example, the configuration name is PullServer, and the node's name is Pull (obviously, you can't run this as-is unless that's how you've named whatever server you plan to inflict this upon).  It will install the DSC-Service Windows Feature, which includes IIS and other bits required for the Pull Server to work. After that, it uses the xDSCWebService resource, which is located in the xPSDesiredStateConfiguration resource that we downloaded, to configure the pull server endpoint. A couple of notes about this configuration:
 
-<<<<<<< HEAD
  * The `CertificateThumbprint` setting is set to "AllowUnencryptedTraffic" so that HTTP can be used instead of HTTPS, but to use HTTPS, the thumbprint of the SSL certificate would be provided as the value instead. The certificate would need to be pre-installed in the node's Machine store by other means - this neither generates, nor installs, a certificate.
  * The `UseSecurityBestPractices` setting is set to False, because you cannot use security best practices with unencrypted traffic.
  * The `ConfigurationPath` setting is the location where the MOFs will be stored for download on the pull server. You use a local folder path that exists (or can be created) on the server.
- * The 1ModulePath1 setting is the location where the modules that are needed for a given configuration will be pulled from.
+ * The `ModulePath` setting is the location where the modules that are needed for a given configuration will be pulled from.
 
-=======
->>>>>>> origin/master
 ## Running the Configuration to Produce a MOF
 The configuration is compiled by loading the configuration into memory, and then executing it. The configuration block is similar to a function, where a function is loaded and then the name of the function is invoked to call the function. In the example, the configuration portion starts at the configuration keyword and ends at the final curly brace. The last line (`PullServer`) invokes the configuration to create the MOF. Compiling this configuration results in a `Pull.MOF` file, located in the `PullServer` subdirectory of the current working directory. Notice that the configuration name is taken for the subdirectory name, and the node name is taken for the MOF filename.
 
@@ -80,7 +77,7 @@ To deploy this configuration to the pull server, run:
 Start-DscConfiguration -Path .\PullServer -Verbose -Wait
 ```
 
-This will configure IIS, firewall rules, and the PSDSCPullServer endpoint. Once the configuration has completed successfully, you can be verify it from the client computer - you don't even need to log on to the server! Assuming the client computer has basic network connectivity to the pull server (and again assuming you named it "pull" like we did, and that your network knows how to resolve "pull" to an IP addresss), launch a browser and navigate to the pull server URL:
+This will configure IIS, firewall rules, and the PSDSCPullServer endpoint. Once the configuration has completed successfully, you can be verify it from the client computer - you don't even need to log on to the server! Assuming the client computer has basic network connectivity to the pull server (and again assuming you named it "pull" like we did, and that your network knows how to resolve "pull" to an IP address), launch a browser and navigate to the pull server URL:
 
 ```
 http://pull:8080/PSDSCPullServer.svc
