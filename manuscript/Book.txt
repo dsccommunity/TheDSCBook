@@ -3,9 +3,12 @@ about-the-authors.md
 feedback.md
 a-note-on-code-listings.md
 introduction.md
+start-here.md
+setting-up-a-dsc-lab.md
 designing-dsc.md
 dsc-in-azure.md
 basic-configuration-authoring.md
+deploying-mofs-to-pull-server.md
 finding-and-using-resources.md
 setting-up-a-pull-server.md
 configuring-the-lcm.md
