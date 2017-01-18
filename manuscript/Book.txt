@@ -11,6 +11,7 @@ part-2-configuring-the-infrastructure.md
 infrastructure-prerequisites.md
 configuring-the-lcm.md
 setting-up-a-pull-server.md
+opting-out-pull-server.md
 
 part-3-testing-the-infrastructure.md
 testing-push-mode.md
