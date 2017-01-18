@@ -70,4 +70,4 @@ Start-DscConfiguration -Path .\PullServer -Verbose -Wait
 This will configure IIS, firewall rules, and the PSDSCPullServer endpoint.  Once the configuration has completed successfully, it can be verified from the client computer.  Assuming the client computer has basic network connectivity to the pull server, launch a browser and navigate to the pull server URL:
 http://pull:8080/PSDSCPullServer.svc
 
-## Pushing the MOF
+If the endpoint is reachable and functioning, you will receive back an XML document.
