@@ -1,0 +1,2 @@
+-# Part 4: Authoring Configurations
+Configurations wind up being the biggest unit of work in DSC, meaning they're where you'll spend most of your time. We'll be spending a lot of time, in this book, covering them and the various ways in which you can author and deliver them. Let's get started.

@@ -53,10 +53,10 @@ The Test() method returns True or False (that is, Boolean, or [bool]), and is si
 As you can see, if you're keeping your resources simple in terms of functionality, and relying on functionality written elsewhere (either in PowerShell commands or functions that you've written in a normal script module), then deciding on a class-based or function-based resource is easy. They're very similar, once you really strip down all the code they contain.
 
 ## Preparing the Module for Use
-Class-based resource modules get laid more simply than a function-based one:
+Class-based resource modules get laid out more simply than a function-based one:
 
 /Modules/MyModuleName/MyModuleName.psm1
 /Modules/MyModuleName/MyModuleName.psd1
 
-There's no "DSCResources" subfolder hierarchy, in this case. That means you can't distribute your separate, "functional" script module in quite the same way. In this case, you'd simply drop it into the same folder, perhaps naming it something like MyModuleName-Support.psm1 or something. Your class-based module (MyModuleName.psm1) would need to explicitly load it, or your manifest (the .psd1 file) would need to specify it as an additional module to load along with the MyModuleName.psm1 root module.
+There's no "DSCResources" subfolder hierarchy, in this case. That means you can't distribute your separate, "functional" script module in quite the same way. In this case, you'd simply drop it into the same folder, perhaps naming it something like MyModuleName-Support.psm1 or something. Your class-based module (MyModuleName.psm1) would need to explicitly load it, or your manifest (the .psd1 file) would need to specify it as an additional module to load along with the MyModuleName.psm1 root module. 
 
