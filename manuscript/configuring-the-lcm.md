@@ -54,7 +54,12 @@ This is a Globally Unique Identifier (GUID) that you assign to the LCM. In WMF v
 As of this writing, there's currently a bug in the LCM. If you plan to use Push mode, you _must_ still define a ConfigurationID, even though it'll never actually be used for anything. Otherwise, you'll get registration failure messages. You can skip this step for nodes that were _previously_ registered with a pull server using ConfigurationNames and a RegistrationKey. Even though this bug will be fixed at some point, I'm now in the habit of defining a ConfigurationID for nodes that will live in Push mode. Although, be careful. Supplying a ConfigurationID forces the node into the WMF4 pull server protocol, which means any pull server you _do_ assign will see it as a WMF4 node, not a WMF5+ node.
 
 ### ConfigurationMode
-Push or Pull. As easy as that. This defaults to Push, meaning the LCM just sits and waits for you to hit it up with a configuration.
+This controls the LCM's refresh mode. The following values are allowed:
+
+* Disabled. The LCM does not run. This is perhaps most often used in cases where a third-party management technology, like Chef, is actually running the show. Chef can use DSC resource modules under the hood, but it doesn't want the actual LCM stepping in and interfering.
+* ApplyOnce. The LCM applies the current configuration, and then stops running until manually run.
+* ApplyAndMonitor. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It does not attempt to fix the configuration, but will report a status to a Reporting Server if so configured.
+* ApplyAndAutoCorrect. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It will attempt to fix out-of-compliance configuration settings, and if configured will report status to a Reporting Server.
 
 ### ConfigurationModeFrequencyMins
 This controls how often the LCM will re-evaluate its current configuration. It defaults to, and has a minimum value of, 15 minutes. This is important, conceptually, because it means the LCM cannot guarantee _continuous_ compliance with your desired configuration. If someone changes something, that change can "last" for 15+ minutes until the next consistency check. So in cases where the "desired configuration" could mean the difference between literal life or death, or someone going to jail or not, DSC might not be the right technology. In _many_ cases, you could extend this to 24 hours or more (calculated in minutes), for cases when you simply need a once-a-day check on configuration compliance.
@@ -101,12 +106,7 @@ When set to True, the LCM will automatically restart the target node if a DSC re
 This controls how often the LCM will check the pull server for new MOFs. It defaults to 30 minutes, and in WMF v4 must be set to an even multiple of the ConfigurationModeFrequencyMinutes value (15 * 2 = 30, hence the default of 30). This value should always be larger than the ConfigurationModeFrequencyMinutes.
 
 ### RefreshMode
-This controls the LCM's refresh mode. The following values are allowed:
-
-* Disabled. The LCM does not run. This is perhaps most often used in cases where a third-party management technology, like Chef, is actually running the show. Chef can use DSC resource modules under the hood, but it doesn't want the actual LCM stepping in and interfering.
-* ApplyOnce. The LCM applies the current configuration, and then stops running until manually run.
-* ApplyAndMonitor. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It does not attempt to fix the configuration, but will report a status to a Reporting Server if so configured.
-* ApplyAndAutoCorrect. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It will attempt to fix out-of-compliance configuration settings, and if configured will report status to a Reporting Server.
+Push or Pull. As easy as that. This defaults to Push, meaning the LCM just sits and waits for you to hit it up with a configuration.
 
 ### ReportManagers
 This is a collection of configured reporting servers.
