@@ -32,35 +32,47 @@ Second, this simple example is setting up a non-secure - that is, HTTP instead o
 The configuration to set up a simple pull server is (and please, remember our earlier note about wacky code formatting - we've included this in the GitHub sample code repo for your convenience):
 
 ```PowerShell
-    Configuration PullServer {
+Configuration PullServer {
 
-    Import-DscResource -ModuleName xPSDesiredStateConfiguration -ModuleVersion 5.1.0.0
+Import-DscResource -ModuleName xPSDesiredStateConfiguration `
+    -ModuleVersion 5.1.0.0
 
-    Node Pull {
+  Node Pull {
         
-        WindowsFeature DSCService {
-            Name = "DSC-Service"
-            Ensure = 'Present'
-            }
+    WindowsFeature DSCService {
+      Name = "DSC-Service"
+      Ensure = 'Present'
+      }
 
-        xDSCWebService Pullserver {
-            Ensure = 'Present'
-            EndpointName = 'PSDSCPullServer'
-            Port = '8080'  
-            PhysicalPath = "$env:SystemDrive\inetpub\wwwroot\PSDSCPullServer"
-            ModulePath = "$env:PROGRAMFILES\WindowsPowerShell\DscService\Modules" 
-            ConfigurationPath = "$env:PROGRAMFILES\WindowsPowerShell\DscService\Configuration" 
-            State = "Started"
-            DependsOn = "[WindowsFeature]DSCService"
-            UseSecurityBestPractices = $false
-            CertificateThumbprint = "AllowUnencryptedTraffic"
+    xDSCWebService Pullserver {
+      Ensure = 'Present'
+      EndpointName = 'PSDSCPullServer'
+      Port = '8080'  
+      PhysicalPath = "$env:SystemDrive\inetpub\wwwroot\PSDSCPullServer"
+      ModulePath = "$env:PROGRAMFILES\WindowsPowerShell\DscService\Modules"
+      ConfigurationPath = ` 
+        "$env:PROGRAMFILES\WindowsPowerShell\DscService\Configuration" 
+      State = "Started"
+      DependsOn = "[WindowsFeature]DSCService"
+      UseSecurityBestPractices = $false
+      CertificateThumbprint = "AllowUnencryptedTraffic"
+      }
+
+    File RegistrationKey {
+      Ensure = 'Present'
+      DestinationPath = `
+        "$env:PROGRAMFILES\WindowsPowershell\DscService\registrationKeys.txt"
+      Contents = '0f9ae841-785d-4a2d-8cdf-ecae01f44cdb'
+      Type = 'File'
             }
-        }
-    }
-    PullServer
+  }
+}
+PullServer
 ```
 
-In this example, the configuration name is PullServer, and the node's name is Pull (obviously, you can't run this as-is unless that's how you've named whatever server you plan to inflict this upon).  It will install the DSC-Service Windows Feature, which includes IIS and other bits required for the Pull Server to work. After that, it uses the xDSCWebService resource, which is located in the xPSDesiredStateConfiguration resource that we downloaded, to configure the pull server endpoint. A couple of notes about this configuration:
+In this example, the configuration name is `PullServer`, and the node's name is `Pull` (obviously, you can't run this as-is unless that's how you've named whatever server you plan to inflict this upon).  It will install the DSC-Service Windows Feature, which includes IIS and other bits required for the Pull Server to work. After that, it uses the xDSCWebService resource, which is located in the xPSDesiredStateConfiguration resource that we downloaded, to configure the pull server endpoint. It will also create a file, registrationKeys.txt.  This file can contain a single GUID or multiple GUIDs.  The GUIDs are the `shared secrets` that will allow nodes to register with the pull server. 
+
+A couple of additonal notes about this configuration:
 
  * The `CertificateThumbprint` setting is set to "AllowUnencryptedTraffic" so that HTTP can be used instead of HTTPS, but to use HTTPS, the thumbprint of the SSL certificate would be provided as the value instead. The certificate would need to be pre-installed in the node's Machine store by other means - this neither generates, nor installs, a certificate.
  * The `UseSecurityBestPractices` setting is set to False, because you cannot use security best practices with unencrypted traffic.
@@ -71,11 +83,13 @@ In this example, the configuration name is PullServer, and the node's name is Pu
 The configuration is compiled by loading the configuration into memory, and then executing it. The configuration block is similar to a function, where a function is loaded and then the name of the function is invoked to call the function. In the example, the configuration portion starts at the configuration keyword and ends at the final curly brace. The last line (`PullServer`) invokes the configuration to create the MOF. Compiling this configuration results in a `Pull.MOF` file, located in the `PullServer` subdirectory of the current working directory. Notice that the configuration name is taken for the subdirectory name, and the node name is taken for the MOF filename.
 
 ## Pushing the MOF
-To deploy this configuration to the pull server, run:
+Assuming that the server you authored the configuration on is also the pull server, deploy this configuration by running:
 
 ```PowerShell
 Start-DscConfiguration -Path .\PullServer -Verbose -Wait
 ```
+
+If your authoring machine is separate from your pull server, you can deploy the configuration from the authoring machine to the pull server remotely by adding the `-ComputerName Pull` parameter to the above command.
 
 This will configure IIS, firewall rules, and the PSDSCPullServer endpoint. Once the configuration has completed successfully, you can be verify it from the client computer - you don't even need to log on to the server! Assuming the client computer has basic network connectivity to the pull server (and again assuming you named it "pull" like we did, and that your network knows how to resolve "pull" to an IP address), launch a browser and navigate to the pull server URL:
 
