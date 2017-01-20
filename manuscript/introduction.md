@@ -1,3 +1,5 @@
+{mainmatter}
+
 # Introduction
 
 Desired State Configuration, or DSC, was introduced as part of Windows Management Framework (WMF) 4.0 - the same package that included Windows PowerShell 4.0. DSC is essentially the final step originally envisioned for Windows PowerShell in inventor Jeffrey Snover's _[Monad Manifesto](https://leanpub.com/themonadmanifestoannotated)_. DSC builds upon a decade-long investment in Windows PowerShell that included broad cmdlet coverage, a robust (yet simple) scripting language, Remoting, and more. 
