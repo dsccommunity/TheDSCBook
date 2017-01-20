@@ -24,7 +24,8 @@ Install-module xPSDesiredStateConfiguration
 The module will be placed in %systemdrive%\Program Files\WindowsPowershell\Modules, if you want to verify its existence. Once the module is installed, you can use in the configuration. After the `Configuration` keyword, insert the following line:
 
 ```PowerShell
-Import-DscResource -ModuleName xPSDesiredStateConfiguration -ModuleVersion `      5.1.0.0 
+Import-DscResource -ModuleName xPSDesiredStateConfiguration -ModuleVersion `
+  5.1.0.0 
 ```
 
 Second, this simple example is setting up a non-secure - that is, HTTP instead of HTTPS - pull server. This is not a recommended configuration for any production infrastructure setup - or for any lab that tests anything that might one day go into production. This configuration is provided solely as an example for learning purposes. Remember, _you do not want your compromised pull server to be the reason your company ends up on the evening news_. If you decide to follow along with this example, do so _in an isolated, disconnected lab environment_. Seriously, OK? 
