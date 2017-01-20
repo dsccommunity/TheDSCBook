@@ -259,7 +259,9 @@ configuration LCMConfig
 You can also specify a CertificateID, if the server requires client certificate authentication. Notice that the service endpoint - PSDSCPullServer.svc - is the same as it was for the regular pull server function. That's a change in WMF v5; previously, the "compliance server," as it was then known, had its own endpoint.
 
 ## Partial Configurations
-The last thing you might want to do with the LCM is configure partial configurations. I've outlined previously what these are (and why I'm not sure they're a good idea), and here's how you set them up:
+The last thing you might want to do with the LCM is configure partial configurations. We've outlined previously what these are (and why we're not sure they're a good idea), and here's how you set them up:
+
+W> It's worth noting that partials can get really complex. What we're showing here is an illustration; we're not sure it's something you'd find in a real-world environment. We're just trying to convey the sense of the thing.
 
 ```
 [DSCLocalConfigurationManager()]
@@ -273,7 +275,7 @@ configuration LCMConfig
 
 		ConfigurationRepositoryWeb MainPull {
 			AllowUnsecureConnection = $false
-			ConfigurationNames = @('Partial1','Partial2')
+			ConfigurationNames = @('PartialOne','PartialTwo')
 			RegistrationKey = '140a952b-b9d6-406b-b416-e0f759c9c0e4'
 			ServerURL = 'https://mypullserver.company.pri/PSDSCPullServer.svc'
 		}
@@ -292,7 +294,7 @@ configuration LCMConfig
 
 		PartialConfiguration PartialOne {
 			ConfigurationSource = @('[ConfigurationRepositoryWeb]MainPull')
-			Description = 'Partial1'
+			Description = 'PartialOne'
 			RefreshMode = 'Pull'
 			ResourceModuleSource = @('[ResourceRepositoryWeb]ModuleSource')
 		}
@@ -300,7 +302,7 @@ configuration LCMConfig
 		PartialConfiguration PartialTwo {
 			ConfigurationSource = @('[ConfigurationRepositoryWeb]MainPull')
 			DependsOn = '[PartialConfiguration]PartialOne'
-			Description = 'Partial2'
+			Description = 'PartialTwo'
 			ExclusiveResources = @('OrderEntryAdmin','OrderEntryConfig')
 			RefreshMode = 'Pull'
 			ResourceModuleSource = @('[ResourceRepositoryWeb]ModuleSource')
@@ -312,9 +314,9 @@ configuration LCMConfig
 
  Here's what to pay attention to:
  
- * I've defined two partial configurations, which I've arbitrarily named Partial1 and Partial2. If you go back and look at the pull server configuration, you'll see that these are now listed as the ConfigurationNames for the node. Partial1.mof and Partial2.mof must live on that pull server.
- * Each partial configuration defines which pull server it'll come from. You have to refer to a pull server that you already defined - in this case, I've only defined MainPull, and so both partials must come from there. Again, Partial1.mof and Partial2.mof must live on that pull server.
- * PartialTwo won't execute until Partial1 has finished - the DependsOn sees to that.
+ * I've defined two partial configurations, which I've arbitrarily named PartialOne and PartialTwo. If you go back and look at the pull server configuration, you'll see that these are now listed as the ConfigurationNames for the node. PartialOne.mof and PartialTwo.mof must live on that pull server, along with their checksum files.
+ * Each partial configuration defines which pull server it'll come from. You have to refer to a pull server that you already defined - in this case, I've only defined MainPull, and so both partials must come from there. Again, PartialOne.mof and PartialTwo.mof must live on that pull server, along with checksum files.
+ * PartialTwo won't execute until PartialOne has finished - the DependsOn sees to that.
  * PartialTwo is the only configuration that can contain settings using the OrderEntryAdmin and OrderEntryConfig DSC resources. No other configuration  may use those resources, due to the ExclusiveResources setting.
  * Both partials specify my ModuleSource definition as the place to find any missing DSC resource modules.
  * Both partials specify that the configuration be pulled. However, it's legal for some partials to expect to be pushed. Any partials set to Push mode will simply sit and wait for you to push the MOF manually. They wouldn't have a ConfigurationSource, in that case.
