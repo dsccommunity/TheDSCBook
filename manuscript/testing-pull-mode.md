@@ -30,11 +30,16 @@ xTimeZone [String] #ResourceName
     [DependsOn = [string[]]]
     [PsDscRunAsCredential = [PSCredential]]
 }
-````
+```
 
-You may need to do additional investigation in the resource's documentation to find out exactly what needs to be set. For example, what does "IsSingleInstance" do? And what string value does TimeZone accept? To find out, check out the information in the module itself, typically located in %systemdrive%\Program Files\WindowsPowershell\Modules. In the xTimeZone\1.6.0.0 folder, there is a readme.md file and upon reading it, you discover that not only is there information about how to find the valid strings for timezone values, there is also a sample configuration included. Not all downloaded resources are this helpful, so your mileage may vary.  
+You may need to do additional investigation in the resource's documentation to find out exactly what needs to be set. For example:
 
-Paris seems like a great vacation destination, so we're going to configure the client computer to be in the timezone for Paris (Central European Time). Using the command provided in the readme, we find a valid string (Central European Standard Time) to use in the configuration.
+* What does "IsSingleInstance" do? 
+* What string value does TimeZone accept? 
+
+To obtain further information, check out the module itself, typically located in %systemdrive%\Program Files\WindowsPowershell\Modules. In the xTimeZone\1.6.0.0 folder, there is a readme.md file and upon reading it, you discover that not only is there information about how to find the valid strings for timezone values, there is also a sample configuration included. Not all downloaded resources are this helpful, so your mileage may vary.  
+
+Continuing with the example, Paris seems like a great vacation destination, so we're going to configure the client computer to be in the timezone for Paris (Central European Time). Using the command provided in the readme, we find a valid string (Central European Standard Time) to use in the configuration.
 
 ```Powershell
 Configuration ParisTZ {
@@ -73,7 +78,7 @@ ConfigurationPath = `
   "$env:PROGRAMFILES\WindowsPowerShell\DscService\Configuration" 
 ```
 
-You will need these paths to know where to deploy the MOFs and modules to the pull server. You'll also need the proper rights on the pull server in order to copy the files to it. For this example, because we're using the administrative share (C$) to connect, that means you need to have administrative rights. `This is not a best practice, and is only for use in this isolated lab. Configurations provide a blueprint for your entire environment, so access to the pull server and its configurations and modules should be properly locked down using a least-privilege security model.` 
+You will need these paths to know where to deploy the MOFs and modules to the pull server. You'll also need the proper rights on the pull server in order to copy the files to it. For this example, because we're using the administrative share (C$) to connect, that means you need to have administrative rights. **This is not a best practice, and is only for use in this isolated lab. Configurations provide a blueprint for your entire environment, so access to the pull server and its configurations and modules should be properly locked down using a least-privilege security model.**
 
 Copy the MOF/checkum files to the Configuration folder.
 
@@ -142,15 +147,17 @@ To push the LCM configuration to Cli1:
 ```Powershell
 Set-DscLocalConfigurationManager -ComputerName Cli1 -Path .\LCM_Pull `
   -Verbose -Force
+```
 
 This will register the LCM with the pull server!
 
 ## Pulling the Configuration from the Pull Server
-The client is now ready to receive the configuration from the pull server.  We could do nothing, and at the next LCM consistency check, the LCM would pull down and apply the new configuration.  But that's not really any `fun`.  You want to see the configuration get applied, so you can issue the following command to apply the configuration right now.
+The client is now ready to receive the configuration from the pull server.  We could do nothing, and at the next LCM consistency check, the LCM would pull down and apply the new configuration.  But that's not really any **fun**.  You want to see the configuration get applied, so you can issue the following command to apply the configuration right now.
 
 ```Powershell
 Update-DscConfiguration -ComputerName cli1 -Verbose -Wait
 ```
+
 This will apply the configuration, and if all the above instructions were completed successfully, the configuration will deploy successfuly, and your client node will be in the Central European Standard Time timezone.
 
 ## Verifying the Node's State

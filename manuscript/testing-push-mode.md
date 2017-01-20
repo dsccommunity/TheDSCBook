@@ -24,7 +24,7 @@ Install-module xPSDesiredStateConfiguration
 The module will be placed in %systemdrive%\Program Files\WindowsPowershell\Modules, if you want to verify its existence. Once the module is installed, you can use in the configuration. After the `Configuration` keyword, insert the following line:
 
 ```PowerShell
-Import-DscResource -ModuleName xPSDesiredStateConfiguration -ModuleVersion 5.1.0.0 
+Import-DscResource -ModuleName xPSDesiredStateConfiguration -ModuleVersion `      5.1.0.0 
 ```
 
 Second, this simple example is setting up a non-secure - that is, HTTP instead of HTTPS - pull server. This is not a recommended configuration for any production infrastructure setup - or for any lab that tests anything that might one day go into production. This configuration is provided solely as an example for learning purposes. Remember, _you do not want your compromised pull server to be the reason your company ends up on the evening news_. If you decide to follow along with this example, do so _in an isolated, disconnected lab environment_. Seriously, OK? 
@@ -70,7 +70,7 @@ Import-DscResource -ModuleName xPSDesiredStateConfiguration `
 PullServer
 ```
 
-In this example, the configuration name is `PullServer`, and the node's name is `Pull` (obviously, you can't run this as-is unless that's how you've named whatever server you plan to inflict this upon).  It will install the DSC-Service Windows Feature, which includes IIS and other bits required for the Pull Server to work. After that, it uses the xDSCWebService resource, which is located in the xPSDesiredStateConfiguration resource that we downloaded, to configure the pull server endpoint. It will also create a file, registrationKeys.txt.  This file can contain a single GUID or multiple GUIDs.  The GUIDs are the `shared secrets` that will allow nodes to register with the pull server. 
+In this example, the configuration name is `PullServer`, and the node's name is `Pull` (obviously, you can't run this as-is unless that's how you've named whatever server you plan to inflict this upon).  It will install the DSC-Service Windows Feature, which includes IIS and other bits required for the Pull Server to work. After that, it uses the xDSCWebService resource, which is located in the xPSDesiredStateConfiguration resource that we downloaded, to configure the pull server endpoint. It will also create a file, registrationKeys.txt.  This file can contain a single GUID or multiple GUIDs.  The GUIDs are the **shared secrets** that will allow nodes to register with the pull server. 
 
 A couple of additonal notes about this configuration:
 
@@ -80,7 +80,9 @@ A couple of additonal notes about this configuration:
  * The `ModulePath` setting is the location where the modules that are needed for a given configuration will be pulled from.
 
 ## Running the Configuration to Produce a MOF
-The configuration is compiled by loading the configuration into memory, and then executing it. The configuration block is similar to a function, where a function is loaded and then the name of the function is invoked to call the function. In the example, the configuration portion starts at the configuration keyword and ends at the final curly brace. The last line (`PullServer`) invokes the configuration to create the MOF. Compiling this configuration results in a `Pull.MOF` file, located in the `PullServer` subdirectory of the current working directory. Notice that the configuration name is taken for the subdirectory name, and the node name is taken for the MOF filename.
+The configuration is compiled by loading the configuration into memory, and then executing it. The configuration block is similar to a function, where a function is loaded and then the name of the function is invoked to call the function. 
+
+In the example, the configuration portion starts at the configuration keyword and ends at the final curly brace. The last line (`PullServer`) invokes the configuration to create the MOF. Compiling this configuration results in a `Pull.MOF` file, located in the `PullServer` subdirectory of the current working directory. Notice that the configuration name is taken for the subdirectory name, and the node name is taken for the MOF filename.
 
 ## Pushing the MOF
 Assuming that the server you authored the configuration on is also the pull server, deploy this configuration by running:
