@@ -299,10 +299,10 @@ configuration LCMConfig
 		
 		PartialConfiguration PartialTwo {
 			ConfigurationSource = @('[ConfigurationRepositoryWeb]MainPull')
-			DependsOn = [PartialConfiguration]PartialOne'
+			DependsOn = '[PartialConfiguration]PartialOne'
 			Description = 'Partial2'
 			ExclusiveResources = @('OrderEntryAdmin','OrderEntryConfig')
-			RefreshMode 'Pull'
+			RefreshMode = 'Pull'
 			ResourceModuleSource = @('[ResourceRepositoryWeb]ModuleSource')
 		}
 
