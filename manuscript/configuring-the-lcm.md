@@ -54,7 +54,7 @@ This is a Globally Unique Identifier (GUID) that you assign to the LCM. In WMF v
 As of this writing, there's currently a bug in the LCM. If you plan to use Push mode, you _must_ still define a ConfigurationID, even though it'll never actually be used for anything. Otherwise, you'll get registration failure messages. You can skip this step for nodes that were _previously_ registered with a pull server using ConfigurationNames and a RegistrationKey. Even though this bug will be fixed at some point, I'm now in the habit of defining a ConfigurationID for nodes that will live in Push mode. Although, be careful. Supplying a ConfigurationID forces the node into the WMF4 pull server protocol, which means any pull server you _do_ assign will see it as a WMF4 node, not a WMF5+ node.
 
 ### ConfigurationMode
-This controls the LCM's refresh mode. The following values are allowed:
+This controls the LCM's actions. The following values are allowed:
 
 * Disabled. The LCM does not run. This is perhaps most often used in cases where a third-party management technology, like Chef, is actually running the show. Chef can use DSC resource modules under the hood, but it doesn't want the actual LCM stepping in and interfering.
 * ApplyOnce. The LCM applies the current configuration, and then stops running until manually run.
@@ -259,9 +259,11 @@ configuration LCMConfig
 You can also specify a CertificateID, if the server requires client certificate authentication. Notice that the service endpoint - PSDSCPullServer.svc - is the same as it was for the regular pull server function. That's a change in WMF v5; previously, the "compliance server," as it was then known, had its own endpoint.
 
 ## Partial Configurations
-The last thing you might want to do with the LCM is to configure partial configurations. We've outlined previously what these are (and why we're not sure they're a good idea), and here's how you set them up:
+The last thing you might want to do with the LCM is to configure partial configurations. We've outlined previously what these are (and why we're not sure they're a good idea).
 
 It's worth noting that partials can get really complex. What we're showing here is an illustration; we're not sure it's something you'd find in a real-world environment. We're just trying to convey the sense of the thing.
+
+Here's how you set them up:
 
 ```
 [DSCLocalConfigurationManager()]
