@@ -2,7 +2,7 @@
 One of the native resources in DSC is the Script resource. This is intended as a sort of catch-all, quick-and-dirty way of writing your own custom resource, without all the bother of building out a class- or function-based resource. It's worth noting that Script resources can be a great way of prototyping an idea, but they're terribly hard to maintain over the long haul. The strong preference is to use class- or function-based resources rather than Script resources. But... there are a couple of neat things you can do with them.
 
 ## The Basics
-Take a look at this example (for your convenience, this is available as TestUsing.zip as an "extra" for the book in LeanPub; you should be able to sign into your LeanPub account and access the ZIP, which also contains the other samples referred to in this chapter):
+Take a look at this example (for your convenience, this is available in http://github.com/concentrateddon/TheDSCBookCode):
 
 ```
 Configuration TestUsing {

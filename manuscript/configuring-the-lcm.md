@@ -54,7 +54,12 @@ This is a Globally Unique Identifier (GUID) that you assign to the LCM. In WMF v
 As of this writing, there's currently a bug in the LCM. If you plan to use Push mode, you _must_ still define a ConfigurationID, even though it'll never actually be used for anything. Otherwise, you'll get registration failure messages. You can skip this step for nodes that were _previously_ registered with a pull server using ConfigurationNames and a RegistrationKey. Even though this bug will be fixed at some point, I'm now in the habit of defining a ConfigurationID for nodes that will live in Push mode. Although, be careful. Supplying a ConfigurationID forces the node into the WMF4 pull server protocol, which means any pull server you _do_ assign will see it as a WMF4 node, not a WMF5+ node.
 
 ### ConfigurationMode
-Push or Pull. As easy as that. This defaults to Push, meaning the LCM just sits and waits for you to hit it up with a configuration.
+This controls the LCM's refresh mode. The following values are allowed:
+
+* Disabled. The LCM does not run. This is perhaps most often used in cases where a third-party management technology, like Chef, is actually running the show. Chef can use DSC resource modules under the hood, but it doesn't want the actual LCM stepping in and interfering.
+* ApplyOnce. The LCM applies the current configuration, and then stops running until manually run.
+* ApplyAndMonitor. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It does not attempt to fix the configuration, but will report a status to a Reporting Server if so configured.
+* ApplyAndAutoCorrect. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It will attempt to fix out-of-compliance configuration settings and, if configured, will report status to a Reporting Server.
 
 ### ConfigurationModeFrequencyMins
 This controls how often the LCM will re-evaluate its current configuration. It defaults to, and has a minimum value of, 15 minutes. This is important, conceptually, because it means the LCM cannot guarantee _continuous_ compliance with your desired configuration. If someone changes something, that change can "last" for 15+ minutes until the next consistency check. So in cases where the "desired configuration" could mean the difference between literal life or death, or someone going to jail or not, DSC might not be the right technology. In _many_ cases, you could extend this to 24 hours or more (calculated in minutes) for cases when you simply need a once-a-day check on configuration compliance.
@@ -101,12 +106,7 @@ When set to $True, the LCM will automatically restart the target node if a DSC r
 This controls how often the LCM will check the pull server for new MOFs. It defaults to 30 minutes, and in WMF v4 must be set to an even multiple of the ConfigurationModeFrequencyMinutes value (15 * 2 = 30, hence the default of 30). This value should always be larger than the ConfigurationModeFrequencyMinutes.
 
 ### RefreshMode
-This controls the LCM's refresh mode. The following values are allowed:
-
-* Disabled. The LCM does not run. This is perhaps most often used in cases where a third-party management technology, like Chef, is actually running the show. Chef can use DSC resource modules under the hood, but it doesn't want the actual LCM stepping in and interfering.
-* ApplyOnce. The LCM applies the current configuration, and then stops running until manually run.
-* ApplyAndMonitor. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It does not attempt to fix the configuration, but will report a status to a Reporting Server if so configured.
-* ApplyAndAutoCorrect. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It will attempt to fix out-of-compliance configuration settings, and if configured will report status to a Reporting Server.
+Push or Pull. As easy as that. This defaults to Push, meaning that the LCM just sits and waits for you to hit it up with a configuration.
 
 ### ReportManagers
 This is a collection of configured reporting servers.
@@ -133,7 +133,7 @@ configuration LCMConfig
 In this case, the [DSCLocalConfigurationManager()] bit tells PowerShell that this is to be a meta-MOF, which is generated somewhat differently than a normal configuration MOF. The name of the configuration, LCMConfig, is arbitrary. You simply need to specify that name - usually at the very bottom of the script file - to run the config and generate the MOF (it's basically like running a function). Within the Settings{} block is where you can put whatever settings you like from the list above.
 
 ## Deploying the LCM Configuration
-Once you've run that and generated a localhost.meta.mof, you can use Start-DscLocalConfigurationManager to "push" the meta-MOF to whatever node you want. There's no need to rename the file.
+Once you've run that and generated a localhost.meta.mof, you can use Set-DscLocalConfigurationManager to "push" the meta-MOF to whatever node you want. There's no need to rename the file.
 
 ```
 Set-DscLocalConfigurationManager -Path ./localhost.meta.mof -ComputerName NODE1,NODE2
@@ -259,7 +259,9 @@ configuration LCMConfig
 You can also specify a CertificateID, if the server requires client certificate authentication. Notice that the service endpoint - PSDSCPullServer.svc - is the same as it was for the regular pull server function. That's a change in WMF v5; previously, the "compliance server," as it was then known, had its own endpoint.
 
 ## Partial Configurations
-The last thing you might want to do with the LCM is to configure partial configurations. I've outlined previously what these are (and why I'm not sure they're a good idea), and here's how you set them up:
+The last thing you might want to do with the LCM is to configure partial configurations. We've outlined previously what these are (and why we're not sure they're a good idea), and here's how you set them up:
+
+It's worth noting that partials can get really complex. What we're showing here is an illustration; we're not sure it's something you'd find in a real-world environment. We're just trying to convey the sense of the thing.
 
 ```
 [DSCLocalConfigurationManager()]
@@ -273,7 +275,7 @@ configuration LCMConfig
 
 		ConfigurationRepositoryWeb MainPull {
 			AllowUnsecureConnection = $false
-			ConfigurationNames = @('Partial1','Partial2')
+			ConfigurationNames = @('PartialOne','PartialTwo')
 			RegistrationKey = '140a952b-b9d6-406b-b416-e0f759c9c0e4'
 			ServerURL = 'https://mypullserver.company.pri/PSDSCPullServer.svc'
 		}
@@ -292,17 +294,17 @@ configuration LCMConfig
 
 		PartialConfiguration PartialOne {
 			ConfigurationSource = @('[ConfigurationRepositoryWeb]MainPull')
-			Description = 'Partial1'
+			Description = 'PartialOne'
 			RefreshMode = 'Pull'
 			ResourceModuleSource = @('[ResourceRepositoryWeb]ModuleSource')
 		}
 		
 		PartialConfiguration PartialTwo {
 			ConfigurationSource = @('[ConfigurationRepositoryWeb]MainPull')
-			DependsOn = [PartialConfiguration]PartialOne'
-			Description = 'Partial2'
+			DependsOn = '[PartialConfiguration]PartialOne'
+			Description = 'PartialTwo'
 			ExclusiveResources = @('OrderEntryAdmin','OrderEntryConfig')
-			RefreshMode 'Pull'
+			RefreshMode = 'Pull'
 			ResourceModuleSource = @('[ResourceRepositoryWeb]ModuleSource')
 		}
 
@@ -312,8 +314,8 @@ configuration LCMConfig
 
  Here's what to pay attention to:
  
- * I've defined two partial configurations, which I've arbitrarily named Partial1 and Partial2. If you go back and look at the pull server configuration, you'll see that these are now listed as the ConfigurationNames for the node. Partial1.mof and Partial2.mof must live on that pull server.
- * Each partial configuration defines which pull server it'll come from. You have to refer to a pull server that you already defined - in this case, I've only defined MainPull, and so both partials must come from there. Again, Partial1.mof and Partial2.mof must live on that pull server.
+ * I've defined two partial configurations, which I've arbitrarily named PartialOne and PartialTwo. If you go back and look at the pull server configuration, you'll see that these are now listed as the ConfigurationNames for the node. PartialOne.mof and PartialTwo.mof must live on that pull server, along with their checksum files.
+ * Each partial configuration defines which pull server it'll come from. You have to refer to a pull server that you already defined - in this case, I've only defined MainPull, and so both partials must come from there. Again, PartialOne.mof and PartialTwo.mof must live on that pull server, along with their checksum files.
  * PartialTwo won't execute until PartialOne has finished - the DependsOn sees to that.
  * PartialTwo is the only configuration that can contain settings using the OrderEntryAdmin and OrderEntryConfig DSC resources. No other configuration  may use those resources, due to the ExclusiveResources setting.
  * Both partials specify my ModuleSource definition as the place to find any missing DSC resource modules.

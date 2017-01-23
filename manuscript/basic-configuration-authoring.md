@@ -188,5 +188,8 @@ But in addition to any parameters _you_ define, you also get a handful of free p
 * **-OutputPath** accepts a folder path in which your MOF files will be created. By default, PowerShell will create a folder named after your configuration (/MyConfig, in the example I've used), and put the MOFs in there.
 * **-ConfigurationData** accepts a hash table of configuration data, which you can use to drive logic decisions within the configuration. This is a big topic, and there's a whole chapter on it later.
 
+## Deploying the MOF
+Once you've got the MOF authored, you're ready to deploy it. You might do that in Push mode by using `Start-DscConfiguration`, or in Pull mode, which we cover in the "Deploying MOFs to Pull Servers" chapter.
+
 ## Wrapping Up
 This should give you a basic idea of what configurations look like. You can do a _lot_ more with them, and we'll have a whole chapter on more advanced options later in the book. For now, I just wanted to set the stage for this portion of DSC, so that we can cover some of the other major players.

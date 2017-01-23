@@ -1,0 +1,8 @@
+# Opting Out of the Pull Server Approach
+The way we've been going on, you may be assuming that a pull server is a mandatory part of the DSC infrastructure. It isn't. A pull server is useful when - and _only_ when, you plan to create updated configuration MOFs from time to time, especially if that's frequently, and you want nodes to automagically grab them and implement them.
+
+We tend to assume that this is the "best" way because we use Group Policy that way. But for server workloads in particular, you may decide _you don't even want a pull server at all_. For example, DSC currently doesn't support anything like maintenance windows or scheduled downtime, so constantly pulling and implementing configurations _might_ be disruptive in your environment. 
+
+Instead, you could choose to simple _push_ new configurations whenever you want to. And this isn't necessarily a manual procedure, either - keep in mind, DSC is a _platform_, not a _solution_ that includes ready-made tools. We're aware of at least one organization that has constructed their own (sadly proprietary) "push server." That server is configured with maintenance window information, and a database of configurations. When a configuration changes, the server waits until a window is open, and then _pushes_ the new configuration to the node. It has a lot of error handling and alerting, so that if a push attempt fails, everyone's informed.
+
+The point of this short chapter is to emphasize that _DSC is what you need it to be_, provided you're willing to (A) be creative, and (B) implement you own solutions on top of DSC, as needed.

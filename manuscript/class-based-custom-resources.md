@@ -59,4 +59,3 @@ Class-based resource modules get laid out more simply than function-based ones:
 /Modules/MyModuleName/MyModuleName.psd1
 
 There's no "DSCResources" subfolder hierarchy, in this case. That means you can't distribute your separate, "functional" script module in quite the same way. In this case, you'd simply drop it into the same folder, perhaps naming it something like MyModuleName-Support.psm1 or something. Your class-based module (MyModuleName.psm1) would need to load it explicitly, or your manifest (the .psd1 file) would need to specify it as an additional module to load along with the MyModuleName.psm1 root module.
-

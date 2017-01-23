@@ -1,5 +1,3 @@
-{mainmatter}
-
 # Designing DSC
 Deciding _how_ to "do" DSC in your environment is a huge deal. Decide wrong, and you could end up not getting the flexibility you need, or you could end up making things way more complicated than you need. 
 
