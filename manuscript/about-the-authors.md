@@ -1,6 +1,6 @@
 # About the Authors
 
-**Don Jones** has been a Microsoft MVP Award recipient since 2003 for his work with Windows PowerShell and administrative automation. He has written dozens of books on information technology, and today helps design the IT Ops curriculum for Pluralsight.com. Don is also President, CEO, and co-founder of The DevOps Collective (devopscollective.org), which offers IT education programs, scholarships, and which runs PowerShell.org and PowerShell + DevOps Global Summit (powershellsummit.org). 
+**Don Jones** has been a Microsoft MVP Award recipient since 2003 for his work with Windows PowerShell and administrative automation. He has written dozens of books on information technology, and today helps design the IT Ops curriculum for Pluralsight.com. Don is also President, CEO, and co-founder of The DevOps Collective (devopscollective.org), which offers IT education programs and scholarships, and which runs PowerShell.org and PowerShell + DevOps Global Summit (powershellsummit.org). 
 
 Don's other recent works include:
 * Learn Windows PowerShell in a Month of Lunches (Manning.com)

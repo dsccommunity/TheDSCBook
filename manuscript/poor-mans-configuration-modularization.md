@@ -3,7 +3,7 @@ Unless you're in the very smallest of environments, or only using DSC for a very
 
 For example, suppose you have two kinds of application web server. For each kind, you have a half-dozen actual machines. The two are very similar: they have the same firewall settings, basic IIS install, and so on. The main difference is perhaps some application pool settings, and the source files they use. So let's say they're about 90% the same, with a 10% delta. You might decide, "hey, 10% ain't so much, I'll just make one configuration, and use some Configuration Data filtering logic stuff to handle that 10%." 
 
-The percentage of delta that falls within your "comfort level" for having one configuration, versus two different ones, will be very much a personal thing. But at some point, the "delta" between two configurations will be large enough that you'll want to make two separate configuration scripts - while still modularizing, as much as possible, the common elements of them.
+The percentage of delta that falls within your "comfort level" for having one configuration, versus two different ones will be very much a personal thing. But at some point, the "delta" between the two configurations will be large enough that you'll want to make two separate configuration scripts - while still modularizing, as much as possible, the common elements of them.
 
 This chapter will present the easiest approach, at least conceptually. The next two chapters, which cover composite and partial configurations, will present different approaches. All of these have their own pros and cons, and you'll simply have to decide which works best for _your_ organization.
 

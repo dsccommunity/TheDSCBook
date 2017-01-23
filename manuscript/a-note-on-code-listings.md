@@ -18,7 +18,7 @@ Here, we've given up on neatly aligning everything to prevent a wrap situation. 
 You may also see this crop up in `inline code` snippets, especially the backslash. 
 
 
-I> If you are reading this book on a Kindle, tablet or other e-reader, then we hope you'll understand that all code formatting bets are off the table. There's no telling what the formatting will look like due to how each reader might format the page. We trust you know enough about PowerShell to not get distracted by odd line breaks or whatever.
+I> If you are reading this book on a Kindle, tablet or other e-reader, then we hope you'll understand that all code formatting bets are off the table. There's no telling what the formatting will look like due to how each reader might format the page. We trust you know enough about PowerShell not to get distracted by odd line breaks or whatever.
 
 When _you_ write PowerShell code, you should not be limited by these constraints. There is no reason for you to have to use a backtick to "break" a command. Simply type out your command. If you want to break a long line to make it easier to read without a lot of horizontal scrolling, you can hit `Enter` after any of these characters:
 

@@ -5,7 +5,7 @@ To this point, we've basically treated configurations and nodes as a 1:1 thing. 
 I feel it's important at this stage to remind you that DSC is a platform, not a solution set. That is, there's no tooling. _Ideally_, many of us want some kind of System Center-y thing, where we can assign "roles" to our nodes, and have some magical back-end database spew out the necessary MOF files directly to a pull server. That'd be great, and I bet we'll get it one day. But that isn't what this book is about, anyway. So we're going to stick with what's "in the box," and you'll likely end up using a mix-and-match of the techniques I'm covering to meet your needs.
 
 ## Understanding ConfigurationData
-One of the first ways that you can have a single configuration script produce multiple, unique MOFs, is to supply the script with _configuration data_. This is something that lives _apart from_ the script itself, and is fed to the script when the script is run. So, just to broadly set the stage, a script file might look like this:
+One of the first ways that you can have a single configuration script produce multiple, unique MOFs, is to supply the script with _configuration data_. This is something that lives _apart from_ the script itself, and is fed to the script when the script is run. So, just to set the stage broadly, a script file might look like this:
 
 ```
 configuration MyMasterConfig {
@@ -22,7 +22,7 @@ I've created a configuration named **MyMasterConfig**. Separately - and this cou
 Let's start digging into the actual details.
 
 ## Defining Configuration Data
-The top level configuration data hash table needs to contain two elements, AllNodes and NonNodeData. The former is an array, and it'll contain all of the unique-to-each-node information that you need to provide. NonNodeData is a kind of "global" section, and we'll see later how it's used.
+The top level configuration data hash table needs to contain two elements, AllNodes and NonNodeData. AllNodes is an array, and it'll contain all of the unique-to-each-node information that you need to provide. NonNodeData is a kind of "global" section, and we'll see later how it's used.
 
 I mentioned that AllNodes is an array. Each element within the array is a new hash table, which must at least contain a NodeName element. Each can then contain whatever other elements you want, and you basically get to make them up - there are no requirements or specifics. So, as a starting point:
 
@@ -136,7 +136,7 @@ configuration AllMyServers {
 AllMyServers -ConfigurationData $MyData
 ```
 
-So you can see how the data block allows me to use a single configuration script to produce multiple, unique MOFs for multiple nodes.
+You can see how the data block allows me to use a single configuration script to produce multiple, unique MOFs for multiple nodes.
 
 ## All-Nodes Data
 You can also specify properties to apply to all nodes:

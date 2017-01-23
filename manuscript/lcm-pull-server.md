@@ -1,5 +1,5 @@
 # LCM and Pull Server Communications
-I find that a lot of troubleshooting is easier once you know what's _supposed_ to be happening under the hood. So, I set up an unencrypted pull server and a node, and packet-captured their communications. You can do the same in a troubleshooting scenario. Note that I focused on Pull Server Model v2 communications, meaning this isn't applicable to a WMF4 client. Incidentally, you can check out https://github.com/powershellorg/tug, in the References folder, for copies of the WireShark traces I used to figure all this out.
+I find that a lot of troubleshooting is easier once you know what's _supposed_ to be happening under the hood. So, I set up an unencrypted pull server and a node, and packet-captured their communications. You can do the same in a troubleshooting scenario. Note that I focused on Pull Server Model v2 communications, meaning this isn't applicable to a WMF4 client. Incidentally, you can check out <https://github.com/powershellorg/tug>, in the References folder, for copies of the WireShark traces I used to figure all this out.
 
 By the way - doing this kind of sniffing is the only reason I will switch a Pull server to HTTP, and I do so only on a closed-off virtual network.
 
@@ -48,9 +48,7 @@ The certificate information included in the above is a self-generated certificat
 
 It's really important to know that this is the one request sent via HTTP PUT, not by POST. The node expects an HTTP 204 reply, with no content in the body of the request. It simply indicates a successful registration; a status of 400 (Bad Request) indicates a malformed request. It's possible for a Web server to block PUT requests, while allowing POST requests. Such a configuration would prevent new registrations.
 
-The LCM actually performs this registration **each and every time** it checks in with the pull server. However, given that the LCM has created an AgentId now stored on the Pull Server (which Get-DSCLocalConfigurationManager will now show). 
-
-The node inserts the RegistrationKey into the HTTP request _headers_:
+The LCM actually performs this registration **each and every time** it checks in with the pull server. However, given that the LCM has created an AgentId now stored on the Pull Server (which Get-DSCLocalConfigurationManager will now show), the node inserts the RegistrationKey into the HTTP request _headers_:
 
 ```
 Authorization: Shared xxxxxxxxx
@@ -61,11 +59,11 @@ The "xxxxxxxx" is where the authorization information goes - but it isn't just t
 1. The body of the HTTP request, digitally signed using the node's self-generated private key. Bear in mind that the body of the request contains the public key - the pull server can therefore validate the signature. The current date - included in another HTTP header - is added into the signed information.
 2. The signature itself is then run through an HMAC hash process, using the RegistrationKey. 
 
-So in order to validate the Authorization: header, the pull server must repeat the signature process, and then create the HMAC using each RegistrationKey that the pull server knows about. If one of the the results matches what the node sent, then it is considered authorized.
+So in order to validate the "Authorization:"" header, the pull server must repeat the signature process, and then create the HMAC using each RegistrationKey that the pull server knows about. If one of the the results matches what the node sent, then it is considered authorized.
 
 This Authorization header is re-sent with _every registration packet_, which happens _every time the node runs a consistency check_. However, remember that the node doesn't actually "remember" that it successfully registered in the past, and the pull server isn't obligated to re-check the Authorization header. My understanding is that, for the native pull server, the Authorization header is ignored if the AgentId is known to the pull server. Given that the AgentId - a GUID - is pretty hard to guess, it seems that on the second-and-subsequent registrations, the AgentId alone is sufficient to re-authorize the node. That isn't the case on Azure Automation's pull server, which as I've mentioned relies on a sort of client certificate authentication, based on the last certificate the node sent.
 
-The node's self-generated certificate is good for one year, is automatically renewed or re-generated, and is sent to the pull server on each registration. _After_ authorizing the node, the pull server should take whatever certificate information is in the registration request as canonical, and store it.
+The node's self-generated certificate is good for one year, is automatically renewed or regenerated, and is sent to the pull server on each registration. _After_ authorizing the node, the pull server should take whatever certificate information is in the registration request as canonical, and store it.
 
 ### Node Check-In
 This occurs each time the node runs a consistency check.
@@ -109,7 +107,7 @@ For nodes configured to use partials, this will look a bit more complex:
                 }
 ```
 
-The difference is that, with a single configuration, _the server is expected to know what the configuration name is_, because the node supplied it at registration. So the server must store that in its database. For partials, the node must supply the configuration names, since each will have a unique checksum. There's actually intent behind the single-configuration check-in not including the configuration name, and it's so that the server, if it wants to, _can assign a different configuration than the one the client expected_. The native pull server feature in Windows doesn't do this, but Azure Automation's pull server _can_. The idea here is to be able to centrally supply a new configuration without having to tell the node. After all, the node shouldn't care - it should regard any MOF on the pull server as "authoritative" and just do what it says.
+The difference is that, with a single configuration, _the server is expected to know what the configuration name is_, because the node supplied it at registration. So the server must store that in its database. For partials, the node must supply the configuration names, since each will have a unique checksum. There's actually intent behind the single-configuration check-in not including the configuration name, and it's so that the server, if it wants to, _can assign a different configuration than the one the client expected_. The native pull server feature in Windows doesn't do this, but Azure Automation's pull server _can_. The idea here is to be able to supply a new, central configuration without having to tell the node. After all, the node shouldn't care - it should regard any MOF on the pull server as "authoritative" and just do what it says.
 
 The server responds with an HTTP 200, and a JSON response:
 

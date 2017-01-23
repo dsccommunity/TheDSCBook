@@ -1,8 +1,8 @@
 # Partial Configurations
-Honestly, we've already covered almost everything you need to know about partial configurations. In the chapter on Configuring the LCM, you saw how to tell the LCM to pull partials from a pull server, or accept them as a push, or a mix of the two. You saw how to set up dependencies, to control the order of partial configuration application. There's not a whole lot more to cover, really. The actual creation of a partial MOF is the same as creating any ordinary configuration; it's only a "partial" because a node is being told to use more than one of them. So, in this chapter, I'll kind of summarize the capabilities and cover a last couple of details.
+Honestly, we've already covered almost everything you need to know about partial configurations. In the chapter on Configuring the LCM, you saw how to tell the LCM to pull partials from a pull server, or accept them as a push, or a mix of the two. You saw how to set up dependencies to control the order of partial configuration application. There's not a whole lot more to cover, really. The actual creation of a partial MOF is the same as creating any ordinary configuration; it's only a "partial" because a node is being told to use more than one of them. So, in this chapter, I'll kind of summarize the capabilities and cover a last couple of details.
 
 ## Summarizing Partial Configuration Pros and Cons
-We've covered this before, but to briefly review:
+We've covered this before, but to review briefly:
 
 * Partials allow you to modularize chunks of your configuration, making it easier to have multiple contributors.
 * Partials get combined and evaluated by the LCM, which means it's very difficult to detect potential conflicts ahead of time. This can make troubleshooting harder.
@@ -34,7 +34,7 @@ PartialConfiguration Bob {
 
 This would allow only the Bob partial configuration to use the Script or WindowsFeature resources.
 
-It's important to not treat this as a security thing. It's more of a, "help our team not do the wrong thing, but don't stop us." Keep in mind that this "rejecting" of "unallowed" resources _happens at the LCM_, and the LCM's configuration can in fact be changed. Also keep in mind that, when you've got multiple people working on partial configurations _and not talking to each other,_ you're basically just asking for trouble. Some kind of hard-to-troubleshoot conflict is eventually going to enter the situation. Partials shouldn't be used to rectify DSC's lack of native tooling, and this whole "authoritative resources" thing is essentially trying to do just that.
+It's important not to treat this as a security thing. It's more of a, "help our team not do the wrong thing, but don't stop us." Keep in mind that this "rejecting" of "unallowed" resources _happens at the LCM_, and the LCM's configuration can in fact be changed. Also keep in mind that, when you've got multiple people working on partial configurations _and not talking to each other,_ you're basically just asking for trouble. Some kind of hard-to-troubleshoot conflict is eventually going to enter the situation. Partials shouldn't be used to rectify DSC's lack of native tooling, and this whole "authoritative resources" thing is essentially trying to do just that.
 
 Also note that class-based resources can't be used as ExclusiveResources before WMF5.1.
 
