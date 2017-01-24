@@ -8,7 +8,7 @@ This chapter picks up from the previous one. Here, we will:
 This section assumes that you are authoring your configurations from a machine that is neither the pull server nor the target node.
 
 ## Creating the Configuration
-This example is going to set the timezone on a Windows 10 client computer named Cli1. It will be using the xTimezone module from the Powershell Gallery. We'll need to download it first.
+This example will set the timezone on a Windows 10 client computer named Cli1. It will use the xTimezone module from the Powershell Gallery. We'll need to download it first.
 
 ```Powershell
 find-module xTimezone | install-module
@@ -70,7 +70,7 @@ Next, we create a checksum for the MOF file in the same folder as the MOF. This 
 new-dscchecksum -path ./ParisTZ/TimeZoneConfig.mof
 ```
 
-If we refer back to the Pull Server configuration for a moment, we note that we specified the Configuration Path (where the configurations go) and Module Path (where the modules go) in the pull server configuration:
+If we refer to the Pull Server configuration for a moment, we note that we specified the Configuration Path (where the configurations go) and Module Path (where the modules go) in the pull server configuration:
 
 ```Powershell
 ModulePath = "$env:PROGRAMFILES\WindowsPowerShell\DscService\Modules"
@@ -78,7 +78,7 @@ ConfigurationPath = `
   "$env:PROGRAMFILES\WindowsPowerShell\DscService\Configuration" 
 ```
 
-You will need these paths to know where to deploy the MOFs and modules to the pull server. You'll also need the proper rights on the pull server in order to copy the files to it. For this example, because we're using the administrative share (C$) to connect, that means you need to have administrative rights. **This is not a best practice, and is only for use in this isolated lab. Configurations provide a blueprint for your entire environment, so access to the pull server and its configurations and modules should be properly locked down using a least-privilege security model.**
+You will need these paths to know where to deploy the MOFs and modules on the pull server. You'll also need the proper rights on the pull server in order to copy the files to it. For this example, because we're using the administrative share (C$) to connect, that means you need to have administrative rights. **This is not a best practice, and is only for use in this isolated lab. Configurations provide a blueprint for your entire environment, so access to the pull server and its configurations and modules should be locked down properly using a least-privilege security model.**
 
 Copy the MOF/checkum files to the Configuration folder.
 
@@ -152,7 +152,7 @@ Set-DscLocalConfigurationManager -ComputerName Cli1 -Path .\LCM_Pull `
 This will register the LCM with the pull server!
 
 ## Pulling the Configuration from the Pull Server
-The client is now ready to receive the configuration from the pull server.  We could do nothing, and at the next LCM consistency check, the LCM would pull down and apply the new configuration.  But that's not really any **fun**.  You want to see the configuration get applied, so you can issue the following command to apply the configuration right now.
+The client is now ready to receive the configuration from the pull server.  We could do nothing, and at the next LCM consistency check, the LCM would pull down and apply the new configuration.  But that's not really any **fun**.  You want to see the configuration get applied, so you can issue the following command to apply the configuration right now:
 
 ```Powershell
 Update-DscConfiguration -ComputerName cli1 -Verbose -Wait

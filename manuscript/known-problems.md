@@ -2,7 +2,7 @@
 Here, I document some of the known problems folks have run across, along with what solutions I know of.
 
 ## Error configuring the LCM: "Specified Property does not exist," "MI RESULT 12"
-This seems to occur on nodes that were upgraded from WMF v4, or from a pre-release of v5. A fix was documented at https://msdn.microsoft.com/en-us/powershell/wmf/limitation_dsc.
+This seems to occur on nodes that were upgraded from WMF v4, or from a pre-release of v5. A fix was documented at <https://msdn.microsoft.com/en-us/powershell/wmf/limitation_dsc>.
 
 ## Registration Key Problems
 When using a node with ConfigurationNames - and therefore, a registration key GUID, you may see failures to register, and log errors on the pull server. That was a known problem with an older version of the xPSDesiredStateConfiguration module (prior to 3.10), especially on Server Core (where you could also see errors related to a missing JET database engine). 

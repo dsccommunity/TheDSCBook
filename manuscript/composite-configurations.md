@@ -3,7 +3,7 @@ Composite configurations are one way to modularize commonly used groups of confi
 
 Next, you write the actual _composite_ configuration. This is just a normal configuration that uses both regular DSC resources, and the looks-like-a-resource sub-configurations. 
 
-The official term for sub-resources is a _composite resource_, because it can take multiple DSC resources and merge, or "composite," them together into a single looks-like-a-resource. Technically, I don't think Microsoft is using the term "composite configurations" anymore, and "composite resource" is more accurate. But "composite configuration" has been thrown around since DSC was invented, so I'm gonna run with it.
+The official term for sub-resources is a _composite resource_, because it can take multiple DSC resources and merge, or "composite", them together into a single looks-like-a-resource. Technically, I don't think Microsoft is using the term "composite configurations" anymore, and "composite resource" is more accurate. But "composite configuration" has been thrown around since DSC was invented, so I'm gonna run with it.
 
 I'm going to run through an example that uses code from https://msdn.microsoft.com/en-us/powershell/dsc/authoringresourcecomposite, and add my own explanations and ideas as I go. 
 
@@ -194,7 +194,7 @@ As I wrote in the previous chapter, every modularization approach has pros and c
 * PRO: It's relatively easy to test a composite resource, by simply building a "main" configuration that uses the composite resource and nothing else. You can also just "run" the composite resource standalone, because, after all, _it's just a configuration script_. Supply whatever parameters it wants, produce a MOF, and deploy that MOF to a test machine to validate it.
 
 ## Design Considerations
-As I noted above, the key to designing composite resources is to have them do one thing, and one thing, only. Whatever's happening inside any given resource should all be intended to happen together, or not at all. For example, Microsoft's sample - which I used - creates a VM. You'd never create a VM without assigning memory, setting up a virtual disk, and so on, and so everything in that resource _goes together_. 
+As I noted above, the key to designing composite resources is to have them do one thing, and one thing only. Whatever's happening inside any given resource should all be intended to happen together, or not at all. For example, Microsoft's sample - which I used - creates a VM. You'd never create a VM without assigning memory, setting up a virtual disk, and so on, and so everything in that resource _goes together_. 
 
 You might have a set of security configurations - firewall stuff, maybe some anti-malware packages, and Windows Update settings - that you always want applied as a collection to your nodes. That's fine - that might make a good resource. What you want to avoid, however, are monolithic composite resources that perform several unrelated tasks, like making a machine a domain controller _and_ installing DHCP _and_ installing something else. Those might all be common elements of your organization's "infrastructure servers," and each DC and DHCP server might be configured exactly the same, but here's how I'd handle it:
 

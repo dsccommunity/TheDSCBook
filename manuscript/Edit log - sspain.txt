@@ -1,0 +1,215 @@
+GLOBAL
+	Is it "pull server" or "Pull server"? "Report server" is consistent in its case
+
+front-matter.md
+	No edits
+
+about-the-authors.md
+	No edits; recommend adding more DevOps Collective activities
+
+feedback.md
+	"refer to." -> "reference."
+	
+a-note-on-code-listings.md
+	"to not get distracted" -> "not to get distracted"
+
+introduction.md
+	Introduction
+	"you work for" -> "where you work"?
+	"When someone sets up a new machine, they" -> "When someone sets up a new machine, she"?
+	'"make it happen."' -> '"make it happen".'
+	"everything's in order" -> "everything is in order"
+	"is to never again configure a computer manually"-> 'that you never again configure a computer manually'
+	'to dynamically target' -> 'to target dynamically'
+	'get to from' -> 'get to using'
+	"deploying those extensions is taken care of by DSC's infrastructure" -> "and letting DSC's infrastructure deploy those extensions."?
+	"rip out the guts of Group Policy and replace it" -> "rip out the guts of Group Policy and replace ..."? (Singular/plural pronouns)
+	Cattle, Not Pets: "kind of pick and choose...kind of have to" -> "pick and choose...have to"?
+	"you're likely to just shoot it, eat it" -> "you're likely just to shoot it, eat it"
+	"If you decide to use DSC to completely manage a server's configuration, including their unique, special names" -> "If you decide to use DSC to manage a server's complete configuration, including its unique, special name"
+	Any locations of "it's" -> "it is" and "it has"?
+
+designing-dsc.md
+	"You need to thoroughly understand the options" -> "You need to understand the options thoroughly"
+	Added period at end of preceeding sentence.
+	"see if the local computer is in compliance with its configuration document" -> "determine if the local computer complies with its configuration document" ("see" vs. "determine" and passive vs. active voice)
+	"Group Policy objects (GPOs)" -> "Group Policy Objects (GPOs)"?
+	Any instances of "they're" -> "they are"?
+	"Now, you need to know the pieces that they play with" -> "Now, you need to know the pieces with which they play" or "Now, you need to know the players' pieces"?
+	"an industry group that Microsoft and other vendors belong to" -> "an industry group that includes Microsoft and other vendors"
+	"what a computer should look like" -> "how a computer should look"?
+	"A resource is usually just a PowerShell script, although they can also be written in a" -> "???"?
+	Remove extraneous comma after "it will load the WindowsFeature resource"
+	"To quickly summarize that:" -> "To summarize that"
+	"what you want the node to look like" -> "how you want the node to look"?
+	"Anything you have a resource for," -> "Anything for which you have a resource"
+?	"The CIM Connection": Worth spelling out the Computer Information Metabase or discussing the standard?
+	"It's interesting to know that" -> "It's interesting to note that"?
+	Any instance of "It'll" -> "It will"?
+	"The LCM will see it, and will process it on its next run" -> "The LCM will see the new MOF and will process it on the next run"
+	"one (or more, which I'll explain in a bit) Pull Servers" -> "one (or more, which I'll explain in a bit) Pull Server(s)"
+	"it'll download it and start processing it" -> "it'll download and start processing the new MOF".
+	"make sure any needed DSC resources are already locally installed. If they're not" -> "make sure all needed DSC resources are already locally installed. If they're not"
+	"I'm going to be referring to" -> "I'm going to refer to"?
+	Replace " - " with a proper em dash or two hyphens?
+	Partial Configurations: "So what's a partial configuration?" -> "So what is a partial configuration"?
+	"it becomes really easily to _accidentally_ re-use" -> "it becomes really easy to _accidentally_ reuse"
+	'A node could check in and say, "hey,' -> 'A node could check in and say, "Hey,'
+	"Different organizations work differently, have different requirements, and different preferences." -> "Different organizations work differently and have different requirements and different preferences."
+
+dsc-in-azure.md
+	"lurking inside Azure Automation is a look at what those tools might look like" -> "lurking inside Azure Automation is a preview of how those tools might look"
+	"sales pitch for Azure - it's" -> "sales pitch for Azure; it's"
+	"only _your_nodes" -> "only _your_ nodes"
+
+basic-configuration-authoring.md
+	"script filenames match the configuration name" -> "script filenames match the configuration names"
+	"the node or nodes that you plan to create MOFs for" -> "the node or nodes for which you plan to create MOFs"
+	"in  a configuration" -> "in a configuration"
+	"whatever's" -> "whatever is"?
+	"However." -> "However..."
+	"Honestly, doing so requires like four extra lines" -> "Honestly, doing so requires about four extra lines"?
+	Running the Configuration: "I've sort of already covered this, but in" -> "In"? (Don't feel like it's been covered enough to reference yet.)
+	"**-OutputPath** accepts a folder path, in" -> "**-OutputPath** accepts a folder path in"
+	Noticing a change to "in which"-type language. Change of author? I'd recommend updating the other text to follow the same construct and can do that as well
+	Wrapping Up: "what configurations look like." -> "how configurations look"?
+	"I just wanted to kind of set the stage" -> "I just wanted to set the stage"
+	
+finding-and-using-resources.md
+	'is, "what can I do with it?"' -> 'is, "What can I do with it?"'
+	'is, "What can I do with it?"' -> 'is, "What can I do with it?".'?
+	'me, "what' -> 'me, "What'
+	"Microsoft's" -> "Microsoft has"
+	"that Install-Module can get to," -> "that Install-Module can reach"?
+	Forward slashes in file paths?
+	"_resource module_ called PSDesiredStateConfiguraiton, and it's" -> "_resource module_ called PSDesiredStateConfiguration and its"
+	"Microsoft's gotten better" -> "Microsoft has gotten better"
+	"Have a look at PS C:/Windows" -> "Have a look at C:/Windows"
+
+setting-up-a-pull-server.md
+	"At this point... At this point" -> "By now... At this point"
+	"you'll doubtless have nodes that you simply push configurations to" -> "you'll doubtlessly have nodes to which you simply push configurations"
+	'"playing around,"' -> '"playing around",'?
+	Really, really love the "I kind of hope you go to jail" line!
+	"requiring them to also add" -> "requiring them also to add"
+	"(which doesn't not disable SSL)" -> "(which does not disable SSL)"
+
+configuring-the-lcm.md
+	"When set to False" -> "When set to $False" to match settings below
+	"you'll probably set this to True" -> "you'll probably set this to $True"
+	"Why would you not set this True" -> "Why would you not set this to $True"
+	"This AllowModuleOverwrite settings" -> "This AllowModuleOverwrite setting"
+	CertificateID: Moved sentences referring to ConfigurationID out of CertificateID
+	"(calculated in minuteS)," -> "(calculated in minutes)"
+	"The LCM versions that this LCM is compatible with" -> "The LCM versions with which this LCM is compatible"?
+	"When set to True" -> "When set to $True" to match settings above
+	"This is set to False" -> "This is set to $False"
+	"Meta-MOFs are pushed to their node" -> "Meta-MOFs are pushed to their nodes"
+		"The Set-DscLocalConfigurationManager cmdlet pushes a meta-MOF to its node (using CIM sessions for connectivity)."
+	"this is to be a meta-MOF, which are" -> "this is to be a meta-MOF, which is"
+	The discussion of running the name of the meta-MOF at the bottom of the file may be the antecedent to the comment above that I found unclear.
+	"or just copying the meta-MOF to an arbitrary local file on the node and having" -> "or just to copy the meta-MOF to an arbitrary local file on the node and have"
+	"and the offer less functionality" -> "and they offer less functionality"
+	"This should always be $false" -> "This should always be $False"
+	"With this set to $true" -> "With this set to $True"
+	"The last thing you might want to do with the LCM is configure" -> "The last thing you might want to do with the LCM is to configure"
+	"Here's what to pay attention to:" -> ?
+	"PartialTwo won't execute until Partial1 has finished" -> "PartialTwo won't execute until PartialOne has executed"
+	The ConfigurationNames parameter to ConfigurationRepositoryWeb won't work as-is, will it, since the names don't match the PartialConfiguration clauses (Partial1, PartialOne, Partial2, PartialTwo)?
+
+reporting.md
+	"doesn't work the same" -> "doesn't work the same way"
+	Querying Report Data: "the same Web service that nodes report to" -> "the same Web service to which nodes report"
+	"it's what we've got to work with" -> "it's all we have"?
+	
+going-further-with-configurations.md
+	"just to broadly set the stage" -> "just to set the stage broadly"
+	"The former" without a "latter": "The former is an array" -> "AllNodes is an array"
+	AllNodes@()?
+	"So you can see" -> "You can see"
+
+poor-mans-configuration-modularization.md
+	"ones, will be very much a" -> "ones will be very much a"
+	'"delta" between two configurations' -> '"delta" between the two configurations'
+
+composite-configurations.md
+	'or "composite,"' -> 'or "composite",'
+	Design Considerations: "do one thing, and one thing, only" -> "one thing, and one thing only"
+
+partial-configurations.md
+	"set up dependencies, to control" -> "set up dependencies to control"
+	"I'll kind of summarize" -> "I'll summarize"?
+	"but to briefly review" -> "but to review briefly"
+	"to not treat" -> "not to treat"
+
+security-and-dsc.md
+	"assume that whoever has access to that mailbox," -> "assume that whoever hass access to that mailbox"
+	"the certificate to indisputably identify" -> "the certificate indisputably to identify"
+	"specified in their configuration" -> "specified in their configurations"
+	Almost freaked out the passenger next to me when I read the "sharing certificates is like sharing contraceptives" line!! Awesome.
+
+custom-resources.md
+	"and you sort of lay out the code" -> "and you lay out the code"?
+	"because the base class demands that those be dealt with" -> "because the base class demands that you deal with them"?
+	"re-use" -> "reuse"
+	'"interface."' -> '"interface".'?
+	"how to properly write" -> "how to write proper"
+	"which will be explored in more detail" -> "which I will explore in more detail"?
+	Convert the MSDN Resource MOF Designer address to a link
+
+class-based-custom-resources.md
+	"is the one to look at" -> "is the one to examine"?
+	"and I have to explicitly define the key property" -> "and I have to define the key property explicitly"
+	"a Path and DesiredContent property" -> "Path and DesiredContent properties"
+	"True or False" -> "$True or $False" to be consistent with earlier text
+	"modules get laid more simply" -> "modules get laid out more simply"
+	"than a function-based one" -> "than function-based ones"
+	"to explicitly load it" -> "to load it explicitly"
+
+best-practices-for-resource-design.md
+	"takes the results of that commands" -> "takes the results of that command"
+	'"things you configure,"' -> '"things you configure",'?
+
+the-script-resource.md
+	"referred to in this chapter" -> "from this chapter"?
+	"have a serialized" -> "has a serialized"
+	
+dsc-on-linux.md
+
+troubleshooting-and-debugging.md
+	"which forces the LCM to always reload" -> "which forces the LCM always to reload"
+	"what's  up" -> "what's up"
+	"something else, then the LCM" -> "something else - then the LCM"
+	"to manually restart the WMI service" -> "to restart the WMI service manually"
+	"those communications which hang things up" -> "those communications that hang things up"
+
+lcm-pull-server.md
+	Converted link text to a link
+	Suggestion: Make the "(1)" and "(2)" callouts in the JSON object italic
+	Incomplete sentence: "However, given that the LCM has created an AgentID now stored on the Pull Server (which Get-DSCLocalConfigurationMangaer will now show).", merged with the next sentence to complete the thought.
+	Encase "Authorization:" in quotes to keep the colon from appearing as a part of speech
+	"re-generated" -> "regenerated"
+	"to centrally supply a new" -> "to supply a new, central"
+	Suggested changing this sentence, as it isn't clear: "And, the StatusReport table, which is the Reporting Server role, you'll find:"
+
+self-modifying-configurations.md
+	Converted the address to a link
+	"It's easy to get to." -> "It's easy to find."?
+	"the LCM has been received" -> "the LCM has received"
+	"this is basically what my example above" -> "this is basically what my above example does."
+	"e.g.," -> "i.e."
+	"consistency check, are" -> "consistency check - are"
+	"I'd want to use the bootstrap for." -> "I'd want to use the bootstrap to do."?
+	"to directly encrypt the MOF right on the node" -> "to encrypt the MOF directly on the node"
+
+the-scaling-question.md
+	"already scales great" -> "already scales easily"
+	"to keep track of" -> "to track"?
+	"servers. Some SQL" -> "servers, and some SQL"
+	"spins up DC" -> "spins up DCs"
+	"that role is assigned to" -> "assume that role"?
+	
+known-problems.md
+	"what solutions I know of" -> "what solutions I can offer"?
+	Converted text to link
+	

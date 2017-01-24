@@ -1,9 +1,9 @@
 # Finding and Using Resources
 At this point in the book, I feel that we've gotten all the basics out of the way. You should know who the major players are in the DSC process, and you should have all the core terminology in your head. So now we can get serious.
 
-I think the first thing people tend to ask about DSC is, "what can I do with it?" Legit question. And although I wanted to make sure you knew about configurations, MOFs, the LCM, and all that, for me, "what can I do with it?" is the right starting point for DSC. Figuring out what DSC resources are available, and figuring out how to use them, is pretty much where DSC really begins.
+I think the first thing people tend to ask about DSC is, "What can I do with it?" Legit question. And although I wanted to make sure you knew about configurations, MOFs, the LCM, and all that, for me, "What can I do with it?" is the right starting point for DSC. Figuring out what DSC resources are available, and figuring out how to use them, is pretty much where DSC really begins.
 
-One major upside to DSC is that so much is available as open source projects. Nearly everything Microsoft's created for DSC is open source. Tons of open source projects from community groups and enthusiasts are out there. And many of those projects have dozens (or more!) of contributors, all improving and debugging everything, all the time. Things move and improve fast - which is great. But the corresponding downside is that documentation can be slim or nonexistent. So figuring out how to use what's out there - that's critical.
+One major upside to DSC is that so much is available as open source projects. Nearly everything Microsoft has created for DSC is open source. Tons of open source projects from community groups and enthusiasts are out there. And many of those projects have dozens (or more!) of contributors, all improving and debugging everything, all the time. Things move and improve fast - which is great. But the corresponding downside is that documentation can be slim or nonexistent. So figuring out how to use what's out there - that's critical.
 
 ## Finding What's Out There
 Let's be clear: there is no way I, or anyone, can document all the open source DSC resources out there. What I can do, however, is point you to some of the major locations where you'll find them. 
@@ -53,7 +53,7 @@ PowerShell      Environment               PSDesiredStateConfiguration    1.1    
 PowerShell      Group                     PSDesiredStateConfiguration    1.1        {GroupNa...
 ```
 
-As you can see, I have several resources - Archive, Environment, and so on - in a _resource module_ called PSDesiredStateConfiguration, and it's version is 1.1. After running Get-DscResource, you should see any resource modules you've installed; if you don't, _get that sorted out before you go any further_. 
+As you can see, I have several resources - Archive, Environment, and so on - in a _resource module_ called PSDesiredStateConfiguration, and its version is 1.1. After running Get-DscResource, you should see any resource modules you've installed; if you don't, _get that sorted out before you go any further_. 
 
 The main problem I've seen is simply having the resource module in the wrong location. Have a look at the PSModulePath environment variable on your computer - it should include the /Program Files/WindowsPowerShell/Modules folder as one of its locations. If it doesn't, fix it (which needs to be done outside PowerShell, like from the System Properties Control Panel applet). Or, locate your modules in one of the locations that PSModulePath _does_ contain (ideally not the System32 location; that's meant for Microsoft only). 
 
@@ -67,9 +67,9 @@ ResourceName UniqueName {
 }
 ```
 
-The ResourceName is easy to figure out, because it's shown right in the output of Get-DscResource. But what properties does the resource support? What values do they accept? _Hopefully_ there's some documentation out there that can clue you in! Microsoft's gotten better about publishing documentation for a lot of their resources, although as I write this they're still working on adding more docs. But don't rely on the Get-Help command in PowerShell - at this time, it's not wired up to provide help on DSC resource modules, unfortunately. Well, not directly.
+The ResourceName is easy to figure out, because it's shown right in the output of Get-DscResource. But what properties does the resource support? What values do they accept? _Hopefully_ there's some documentation out there that can clue you in! Microsoft has gotten better about publishing documentation for a lot of their resources, although as I write this they're still working on adding more docs. But don't rely on the Get-Help command in PowerShell - at this time, it's not wired up to provide help on DSC resource modules, unfortunately. Well, not directly.
 
-Have a look at PS C:/Windows/System32/WindowsPowerShell/v1.0/Modules/PSDesiredStateConfiguration/en-US on your computer. You should see a whole bunch of help files. Some are for commands like Disable-DscDebug, and you can use the ordinary Help command to view that documentation. Some of the rest of it is a little harder, because you can't just run "Help PSDesiredStateConfiguration" and get that documentation. What you can run, however, is this:
+Have a look at C:/Windows/System32/WindowsPowerShell/v1.0/Modules/PSDesiredStateConfiguration/en-US on your computer. You should see a whole bunch of help files. Some are for commands like Disable-DscDebug, and you can use the ordinary Help command to view that documentation. Some of the rest of it is a little harder, because you can't just run "Help PSDesiredStateConfiguration" and get that documentation. What you can run, however, is this:
 
 ```
 PS C:\Windows\System32\WindowsPowerShell\v1.0\Modules\PSDesiredStateConfiguration\en-US> help -path .\PSDesiredStateConfiguration.psm1-help.xml

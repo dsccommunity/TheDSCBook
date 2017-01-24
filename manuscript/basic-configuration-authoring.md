@@ -11,7 +11,7 @@ configuration MyConfig {
 }
 ```
 
-While it's technically possible to include multiple configuration blocks in a single .ps1 file, I avoid doing so. For one, Azure DSC doesn't like it. For another, I like to have my script filenames match the configuration name - so the above would be in MyConfig.ps1. 
+While it's technically possible to include multiple configuration blocks in a single .ps1 file, I avoid doing so. For one, Azure DSC doesn't like it. For another, I like to have my script filenames match the configuration names - so the above would be in MyConfig.ps1. 
 
 ## Adding Nodes
 The next part of the configuration identifies the node or nodes that you plan to create MOFs for. At the simplest level, it can look like this:
@@ -92,7 +92,7 @@ configuration MyConfig {
 }
 ```
 
-When this is run, it'll produce a MOF with three Windows features. Notice that I've used $feature for the name of the _setting_ as well as using it to identify the _feature_ name. That's because _the name of every setting must be unique within the configuration_. This probably isn't an incredibly practical example, but it does show you how you can use logic in  a configuration.
+When this is run, it'll produce a MOF with three Windows features. Notice that I've used $feature for the name of the _setting_ as well as using it to identify the _feature_ name. That's because _the name of every setting must be unique within the configuration_. This probably isn't an incredibly practical example, but it does show you how you can use logic in a configuration.
 
 **But here's the important bit:** This logic only executes when the configuration is run on your authoring machine. The final MOF won't contain the ForEach loop; the MOF will contain three static settings. MOFs aren't scripts - they don't contain logic. MOFs don't ask questions and make decisions, for the most part; they just do what they contain.
 
@@ -139,7 +139,7 @@ configuration MyConfig {
 
 My GetScript returns an empty hash table; that's not uncommon. My TestScript will return $True if a folder exists, and $False if it doesn't (because that's what Test-Path itself returns). If the folder doesn't exist, my SetScript block creates the folder. Again, a very simple example, but shows you the idea.
 
-However.
+However...
 
 You need to be a little careful with Script resources. They can be harder to maintain and, if they're complex, really difficult to troubleshoot. For all but the simplest purposes, I usually prefer creating my own custom DSC resource. Honestly, doing so requires like four extra lines of code on top of just writing a Script resource, and you end up with something that's easier to maintain and debug. We'll obviously be covering that in an upcoming chapter.
 
@@ -185,11 +185,11 @@ MyConfig -ComputerName ONE,TWO,WHATEVER
 But in addition to any parameters _you_ define, you also get a handful of free parameters that you can use:
 
 * **-InstanceName** isn't something you'll probably ever use. It lets you override the ID that DSC uses to manage composite configurations. and it's honestly best to not mess with it.
-* **-OutputPath** accepts a folder path, in which your MOF files will be created. By default, PowerShell will create a folder named after your configuration (/MyConfig, in the example I've used), and put the MOFs in there.
+* **-OutputPath** accepts a folder path in which your MOF files will be created. By default, PowerShell will create a folder named after your configuration (/MyConfig, in the example I've used), and put the MOFs in there.
 * **-ConfigurationData** accepts a hash table of configuration data, which you can use to drive logic decisions within the configuration. This is a big topic, and there's a whole chapter on it later.
 
 ## Deploying the MOF
 Once you've got the MOF authored, you're ready to deploy it. You might do that in Push mode by using `Start-DscConfiguration`, or in Pull mode, which we cover in the "Deploying MOFs to Pull Servers" chapter.
 
 ## Wrapping Up
-This should give you a basic idea of what configurations look like. You can do a _lot_ more with them, and we'll have a whole chapter on more advanced options later in the book. For now, I just wanted to kind of set the stage for this portion of DSC, so that we can cover some of the other major players.
+This should give you a basic idea of what configurations look like. You can do a _lot_ more with them, and we'll have a whole chapter on more advanced options later in the book. For now, I just wanted to set the stage for this portion of DSC, so that we can cover some of the other major players.
