@@ -229,7 +229,7 @@ configuration CopyStuff {
 Except I didn't actually use $AllNodes.ForEach(), right (grin)? That's just a plain ForEach loop, but it does show how it can sometimes be beneficial to do that. Honestly... I really do struggle to find use cases for $AllNodes.ForEach(). I've always found it simpler to filter using Where(), and to just use a normal ForEach loop - as above - when I need to enumerate something from the data block.
 
 ## Configuration Script Strategies
-If you were really paying attention to all of the foregoing examples, you might have noticed that I only generated MOFs for NOD1 and MACHINE3. What about SERVER2?
+If you were really paying attention to all of the foregoing examples, you might have noticed that I only generated MOFs for NODE1 and MACHINE3. What about SERVER2?
 
 It depends.
 
