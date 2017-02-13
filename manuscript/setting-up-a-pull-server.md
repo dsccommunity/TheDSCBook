@@ -117,7 +117,7 @@ There's an additional setting (as of at least 5.1) that you can toss into the pu
 Running the above script (assuming you've adjusted any values you want to) will produce ./GoGoDscPullServer/SERVER1.mof. You can now push that to your prospective pull server:
 
 ```
-Start-DscConfiguration -Path ./GoGoDscPullServer/SERVER1.mof -ComputerName SERVER1
+Start-DscConfiguration -Path ./GoGoDscPullServer -ComputerName SERVER1
 ```
 
 This'll take a while to run; you may want to add -Verbose and -Wait to the command to watch it all happen. If IIS isn't installed on the server, it'll get installed (as a pre-requisite of the DSC pull server feature), and that's what can take several minutes.
