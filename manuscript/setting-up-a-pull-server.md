@@ -29,14 +29,14 @@ Install the certificate to the local _machine_ store, not your _user_ store. Tha
 Run [guid]::newGuid() to generate a new GUID. This is going to be the registration key for the pull server. In the chapter on configuring the LCM, I cover where you'll use this GUID again, so that your nodes can "log in" to the pull server.
 
 ## Step 4: Set Up DSC
-I'm starting by assuming that your pull server computer is running WMF v5 or later already. I'm going to build a configuration that turns on the pull server functionality:
+I'm starting by assuming that your pull server computer is running WMF v5 or later already. I'm going to build a configuration that turns on the pull server functionality, and I assume that SERVER1 is the name of the new pull-server-to-be.
 
 ```
 configuration GoGoDscPullServer
 { 
     param  
     ( 
-            [string[]]$NodeName = 'localhost', 
+            [string[]]$NodeName = 'SERVER1', 
 
             [ValidateNotNullOrEmpty()] 
             [string] $certificateThumbPrint,
@@ -114,13 +114,13 @@ There's some argument in the community about how to handle these. Some folks are
 There's an additional setting (as of at least 5.1) that you can toss into the pull server configuration: **UseSecurityBestPractices**. This is set to either $true or $false. We've seen some people have problems with the pull server when configured this way (specifically, some nodes not being able to register), requiring them also to add **DisableSecurityBestPractices='SecureTLSProtocols'** to disable TLS (which does not disable SSL). Note that these may not affect an _existing_ pull server; if you're having problems and need to reconfigure, you may need to remove an existing pull server entirely and rebuild it. Or, go into the registry key affected by the setting and remove any keys containing "TLS" in them. Essentially, UseSecurityBestPractices sets that registry key, HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL, to enforce stronger encryption - but it can negatively affect older clients that don't support those. https://support.microsoft.com/en-us/kb/245030 and https://technet.microsoft.com/en-us/library/dn786418(v=ws.11).aspx contain more detail.
 
 ## Step 5: Run and Deploy the Config
-Running the above script (assuming you've adjusted any values you want to) will produce ./GoGoDscPullServer/localhost.mof. You can now push that to your prospective pull server:
+Running the above script (assuming you've adjusted any values you want to) will produce ./GoGoDscPullServer/SERVER1.mof. You can now push that to your prospective pull server:
 
 ```
-Start-DscConfiguration -Path ./GoGoDscPullServer/localhost.mof -ComputerName SERVER1
+Start-DscConfiguration -Path ./GoGoDscPullServer/SERVER1.mof -ComputerName SERVER1
 ```
 
-(Assuming SERVER1 is the new pull server-to-be). This'll take a while to run; you may want to add -Verbose and -Wait to the command to watch it all happen. If IIS isn't installed on the server, it'll get installed (as a pre-requisite of the DSC pull server feature), and that's what can take several minutes.
+This'll take a while to run; you may want to add -Verbose and -Wait to the command to watch it all happen. If IIS isn't installed on the server, it'll get installed (as a pre-requisite of the DSC pull server feature), and that's what can take several minutes.
 
 ## Confirming the Setup
 When everything's done, you should be able to view the PhysicalPath on the pull server to confirm that the DSC service endpoint (a .svc file) exists, and you can remotely use IIS Manager to attach to the server, confirm that IIS is running, and confirm that the website details (port, certificate, and so on) are correct.
