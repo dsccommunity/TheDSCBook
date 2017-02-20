@@ -83,7 +83,7 @@ You will need these paths to know where to deploy the MOFs and modules on the pu
 Copy the MOF/checkum files to the Configuration folder.
 
 ```PowerShell
-copy-item -Path .\parisTZ -Destination `
+copy-item -Path .\parisTZ\* -Destination `
   "\\pull\C`$\Program Files\WindowsPowerShell\DscService\Configuration" `
   -recurse -Force
 ```
