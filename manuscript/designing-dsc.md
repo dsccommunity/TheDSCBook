@@ -61,7 +61,7 @@ WindowsFeature DnsServer2 {
 	Ensure = 'Absent'
 }
 ```
-This doesn't make any sense! You want DNS installed - but not installed? Make up your mind! Because this kind of configuration can throw the LCM into an infinite loop of installing and uninstalling, DSC won't allow it. In fact, during its pre-scan of the MOF, the LCM will spot this duplicate "DNS" key and abort. It'll actually refuse to run anything in the MOF, just because of this one problem.
+This doesn't make any sense! You want DNS installed - but not installed? Make up your mind! Because this kind of configuration can throw the LCM into an infinite loop of installing and uninstalling, DSC won't allow it. In fact, DSC will detect the conflict upon trying to create a MOF from a configuration with these settings, an error will be returned, and a MOF will not be output.
 
 This is really, really important - and it can be tricky, because as you physically write a configuration script, there's no easy or obvious way to see exactly what the key properties are. You _can_ look it up, and I'll show you how, and you have to be very careful not to create duplicates.
 
