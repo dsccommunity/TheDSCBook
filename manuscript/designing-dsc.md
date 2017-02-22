@@ -100,6 +100,7 @@ $ConfData =
             NodeName = "SERVER2";
             Role     = "SQLServer"
         }
+		)
 }
 ```
 
