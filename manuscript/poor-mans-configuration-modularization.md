@@ -67,7 +67,7 @@ configuration MyConfig {
     . .\IISStuff.ps1
         
     SourceFiles AppFiles {
-      Source = '\\master\distrbution\appserver'
+      Source = '\\master\distribution\appserver'
       Destination = 'c:\inetpub\approot'
       SyncMode = 'checksum'
     }
@@ -79,7 +79,7 @@ configuration MyConfig {
    . .\IISStuff.ps1
     
     SourceFiles AppFiles {
-      Source = '\\master\distrbution\salesserver'
+      Source = '\\master\distribution\salesserver'
       Destination = 'c:\inetpub\salesroot'
       SyncMode = 'checksum'
     }
