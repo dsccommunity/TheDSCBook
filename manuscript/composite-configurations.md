@@ -128,7 +128,9 @@ Notice the huge Param() block right at the beginning. It wants the name of a vir
 This gets saved into a special directory structure. It needs to start in one of the folders in the PSModulePath environment variable, such as /Program Files/WindowsPowerShell/modules. So, let's say we wanted this thing called MyVMMaker - that'll be the resource name we use to refer to this thing from within another configuration. We want the overall resource _module_ to be called MyVMStuff. Remember, a _module_ can contain multiple _resources_. I'll save:
 
 /Program Files/WindowsPowerShell/modules/MyVMStuff/MyVMStuff.psd1
+
 /Program Files/WindowsPowerShell/modules/MyVMStuff/DSCResources/MyVMMaker.psd1
+
 /Program Files/WindowsPowerShell/modules/MyVMStuff/DSCResources/MyVMMaker.schema.psm1
 
 So I need three files. MyVMMaker.schema.psm1 is the configuration that I wrote above. The other two files are _manifests_, and I need to create those. MyVMMaker.psd1 only needs one line:
@@ -140,10 +142,13 @@ RootModule = 'MyVMMMaker.schema.psm1'
 To create the other .psd1, just run:
 
 ```
-New-ModuleManifest -Path \Program Files\WindowsPowerShell\modules\MyVMStuff\MyVMStuff.psd1
+New-ModuleManifest `
+    -Path \Program Files\WindowsPowerShell\modules\MyVMStuff\MyVMStuff.psd1
 ```
 
-What's even easier is to grab the helper function from https://blogs.technet.microsoft.com/ashleymcglone/2015/02/25/helper-function-to-create-a-powershell-dsc-composite-resource/, which includes a New-DSCCompositeResource function. It'll automatically set up the correct folder structure, .psd1 files, and template schema.psm1 file you can use as a starting point.
+What's even easier is to grab the helper function from 
+
+https://blogs.technet.microsoft.com/ashleymcglone/2015/02/25/helper-function-to-create-a-powershell-dsc-composite-resource/, which includes a New-DSCCompositeResource function. It'll automatically set up the correct folder structure, .psd1 files, and template schema.psm1 file you can use as a starting point.
 
 ## Using the Composite Resource
 Now I can refer to the composite resource in a normal configuration:
