@@ -25,7 +25,7 @@ Function Test-FileContent {
         [string]$Path,
 
         [Parameter(Mandatory=$True)]
-        [string]$DesiredConent
+        [string]$DesiredContent
     )
 
     if (Test-Path $Path) {
@@ -33,7 +33,7 @@ Function Test-FileContent {
         $ExistingContent = Get-Content -Path $Path | Out-String
         
         # compare
-        if ($ExistingContent -ceq $DesiredConent) {
+        if ($ExistingContent -ceq $DesiredContent) {
             Write $true
         } else {
             Write $false
@@ -53,10 +53,10 @@ Function Set-FileContent {
         [string]$Path,
 
         [Parameter(Mandatory=$True)]
-        [string]$DesiredConent
+        [string]$DesiredContent
     )
 
-    Set-Content -Path $Path -Value $DesiredConent
+    Set-Content -Path $Path -Value $DesiredContent
 
 }
 ```
