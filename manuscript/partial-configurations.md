@@ -36,7 +36,7 @@ PartialConfiguration Bob {
 
 This would allow only the Bob partial configuration to use the Script or WindowsFeature resources.
 
-It's important not to treat this as a security thing. It's more of a, "help our team not do the wrong thing, but don't stop us." Keep in mind that this "rejecting" of "unallowed" resources _happens at the LCM_, and the LCM's configuration can in fact be changed. Also keep in mind that, when you've got multiple people working on partial configurations _and not talking to each other,_ you're basically just asking for trouble. Some kind of hard-to-troubleshoot conflict is eventually going to enter the situation. Partials shouldn't be used to rectify DSC's lack of native tooling, and this whole "authoritative resources" thing is essentially trying to do just that.
+It's important not to treat this as a security thing. It's more of a "help our team not do the wrong thing, but don't stop us." Keep in mind that this "rejecting" of "unallowed" resources _happens at the LCM_, and the LCM's configuration can in fact be changed. Also keep in mind that, when you've got multiple people working on partial configurations _and not talking to each other,_ you're basically just asking for trouble. Some kind of hard-to-troubleshoot conflict is eventually going to enter the situation. Partials shouldn't be used to rectify DSC's lack of native tooling, and this whole "authoritative resources" thing is essentially trying to do just that.
 
 Also note that class-based resources can't be used as ExclusiveResources before WMF5.1.
 
