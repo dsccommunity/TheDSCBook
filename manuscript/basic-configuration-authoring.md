@@ -117,7 +117,9 @@ configuration MyConfig {
 }
 ```
 
-Within the TestScript script block, you can put whatever you want, provided it returns $True or $False as its only output. If it returns $False, then the target node's LCM will run whatever's in the SetScript script block. The GetScript script block should return a hash table that describes the current configuration. The **fun thing here** is that these script blocks don't run when you run the configuration and create MOFs. Instead, the PowerShell code in those three script blocks goes right into the MOF as-is. When the MOF is applied to a target node, it's the _LCM on the target node_ that will run these. So this is a sort of way to make "dynamic" MOFs. Here's a quick example:
+Within the TestScript script block, you can put whatever you want, provided it returns $True or $False as its only output. If it returns $False, then the target node's LCM will run whatever's in the SetScript script block. The GetScript script block should return a hash table that describes the current configuration. GetScript can either return an empty hashtable, or a hashtable with a single key-value pair.  The key must be called "Result", and the value must be a string that represents the state of the configuration.  
+
+The **fun thing here** is that these script blocks don't run when you run the configuration and create MOFs. Instead, the PowerShell code in those three script blocks goes right into the MOF as-is. When the MOF is applied to a target node, it's the _LCM on the target node_ that will run these. So this is a sort of way to make "dynamic" MOFs. Here's a quick example:
 
 ```
 configuration MyConfig {
