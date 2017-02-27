@@ -216,7 +216,7 @@ configuration LCMConfig
 }
 ```
 
-Notice that the RegistrationKey and ServerURL are the same? I'm using the exact same pull server. I can also specify a CertificateID setting, if the pull server requires client certificate authentication. You can also define a ResourceRepositoryShare{} block, which would be for a file share-based pull server, and it accepts Credential and SourcePath properties.
+Notice that the RegistrationKey and ServerURL are the same in both the ConfigurationRepositoryWeb and ResourceRepositoryWeb blocks? I'm using the exact same pull server. I can also specify a CertificateID setting, if the pull server requires client certificate authentication. You can also define a ResourceRepositoryShare{} block, which would be for a file share-based pull server, and it accepts Credential and SourcePath properties.
 
 Again: it's totally legal in WMF v5 to specify a ResourceRepositoryWeb{} block, completely omit any other configurations, and leave the LCM in Push mode. When you Push a configuration to the node, it'll scan to see what resources are needed. If it's missing any of those resources, the node will connect to the defined server and attempt to download the ZIPped resource module. It'll then unzip it and proceed with the configuration.
 
