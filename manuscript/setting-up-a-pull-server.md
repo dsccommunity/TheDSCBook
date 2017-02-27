@@ -113,6 +113,7 @@ There's some argument in the community about how to handle these. Some folks are
 
 There's an additional setting (as of at least 5.1) that you can toss into the pull server configuration: **UseSecurityBestPractices**. This is set to either $true or $false. We've seen some people have problems with the pull server when configured this way (specifically, some nodes not being able to register), requiring them also to add **DisableSecurityBestPractices='SecureTLSProtocols'** to disable TLS (which does not disable SSL). Note that these may not affect an _existing_ pull server; if you're having problems and need to reconfigure, you may need to remove an existing pull server entirely and rebuild it. Or, go into the registry key affected by the setting and remove any keys containing "TLS" in them. Essentially, UseSecurityBestPractices sets that registry key, HKLM:\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL, to enforce stronger encryption - but it can negatively affect older clients that don't support those. 
 https://support.microsoft.com/en-us/kb/245030 and 
+
 https://technet.microsoft.com/en-us/library/dn786418(v=ws.11).aspx contain more detail.
 
 ## Step 5: Run and Deploy the Config
