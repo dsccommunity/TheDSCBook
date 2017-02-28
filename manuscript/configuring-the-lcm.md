@@ -51,8 +51,6 @@ This is a collection of pull servers - that is, servers from which MOF files wil
 ### ConfigurationID
 This is a Globally Unique Identifier (GUID) that you assign to the LCM. In WMF v4, this was the only way to tell the LCM which MOF to pull from a pull server. In WMF v5, you can also use configuration names. However, when using ConfigurationID, the node will essentially look on the pull server for a MOF file whose filename is the same GUID. Note that a GUID isn't just a random string of hexadecimal characters; it's a specific thing that must be generated. In PowerShell, you can use [guid]::newGuid() to generate one. **This is really important**: If you specify a ConfigurationID, you can run against a v4 or v5 pull server, and the v5 pull server will follow v4 behaviors. If you omit the ConfigurationID, whether you include Configuration Names or not, the pull server must be v5 or later, will behave as v5 or later, and requires a registration key to be specified in a Repository section.
 
-As of this writing, there's currently a bug in the LCM. If you plan to use Push mode, you _must_ still define a ConfigurationID, even though it'll never actually be used for anything. Otherwise, you'll get registration failure messages. You can skip this step for nodes that were _previously_ registered with a pull server using ConfigurationNames and a RegistrationKey. Even though this bug will be fixed at some point, I'm now in the habit of defining a ConfigurationID for nodes that will live in Push mode. Although, be careful. Supplying a ConfigurationID forces the node into the WMF4 pull server protocol, which means any pull server you _do_ assign will see it as a WMF4 node, not a WMF5+ node.
-
 ### ConfigurationMode
 This controls the LCM's actions. The following values are allowed:
 
@@ -121,7 +119,7 @@ To change the configuration of an LCM, even the local one, you need a _meta-MOF_
 [DSCLocalConfigurationManager()]
 configuration LCMConfig
 {
-    Node localhost
+    Node Node1
     {
         Settings
         {
@@ -133,10 +131,10 @@ configuration LCMConfig
 In this case, the [DSCLocalConfigurationManager()] bit tells PowerShell that this is to be a meta-MOF, which is generated somewhat differently than a normal configuration MOF. The name of the configuration, LCMConfig, is arbitrary. You simply need to specify that name - usually at the very bottom of the script file - to run the config and generate the MOF (it's basically like running a function). Within the Settings{} block is where you can put whatever settings you like from the list above.
 
 ## Deploying the LCM Configuration
-Once you've run that and generated a localhost.meta.mof, you can use Set-DscLocalConfigurationManager to "push" the meta-MOF to whatever node you want. There's no need to rename the file.
+The file Node1.meta.mof will be created in a subfolder named LCMConfig.  Once you've run that and generated a Node1.meta.mof, you can use Set-DscLocalConfigurationManager to "push" the meta-MOF to Node1.
 
 ```
-Set-DscLocalConfigurationManager -Path ./localhost.meta.mof -ComputerName NODE1,NODE2
+Set-DscLocalConfigurationManager -Path ./LCMConfig -ComputerName Node1 -verbose
 ```
 
 It's also possible to "inject" the meta-MOF into a node by copying it into the place where the LCM looks for it (C:/Windows/System32/Configuration/metaconfig.mof). For example, this is a great way to help configure the LCM as part of an automated VM build, since you can use things like the Hyper-V integration cmdlets to copy files into the VM. 

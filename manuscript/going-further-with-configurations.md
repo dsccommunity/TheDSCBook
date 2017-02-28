@@ -288,15 +288,33 @@ configuration LogicalConfig {
 This gives you a more declarative kind of control over what goes into each MOF, but it can obviously get harder to read and maintain if you go nuts with it. 
 
 ## Using NonNodeData
-Keep in mind that you have the special $ConfigurationData variable, and $ConfigurationData.NonNodeData will access the "global" NonNodeData key. So using this partial data block:
+There's a couple of important things to know about this sometimes-misused section.  First, you do not have to call the section "NonNodeData", and second, you can have multiple NonNodeData sections, which makes a NonNodeData section a good option for role-specific settings that do not pertain to all nodes.  The snippet below shows two NonNodeData sections, one for domain controller settings (DCData) and the other for DHCP server settings (DHCPData).
 
 ```
 $MyData = @{
-  $AllNodes = @( ... )
-  $NonNodeData = @{
-    'Something' = 'Else'
-  }
+  AllNodes = @( ... )
+  
+  DCData = @{
+            DomainName = "Test.Pri"
+            DomainDN = "DC=Test,DC=Pri"
+            DCDatabasePath = "C:\NTDS"
+            DCLogPath = "C:\NTDS"
+            SysvolPath = "C:\Sysvol"
+            }
+
+  DHCPData = @{
+            DHCPName = 'DHCP1'
+            DHCPIPStartRange = '192.168.3.200'
+            DHCPIPEndRange = '192.168.3.250'
+            DHCPSubnetMask = '255.255.255.0'
+            DHCPState = 'Active'
+            DHCPAddressFamily = 'IPv4'
+            DHCPLeaseDuration = '00:08:00'
+            DHCPScopeID = '192.168.3.0'
+            DHCPDnsServerIPAddress = '192.168.3.10'
+            DHCPRouter = '192.168.3.1'
+            } 
 }
 ```
 
-Previously, I'd just set NonNodeData to an empty string (""), but in fact it can be a complete hash table. So now, $ConfigurationData.NonNodeData.Something would return the value "Else." 
+Keep in mind that you have the special $ConfigurationData variable, and $ConfigurationData.<NonNodeData> will access the "global" NonNodeData keys.   Previously, we'd just set NonNodeData to an empty string (""), but in fact it can be a hash table or multiple hash tables. So now, the configuration can use $ConfigurationData.DCData.DomainName to access the domain name property, or $DHCPData.DHCPDNSServerIPAddress to access the DHCP server's DNS IP address. 
