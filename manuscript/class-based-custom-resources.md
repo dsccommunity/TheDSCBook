@@ -7,7 +7,7 @@ Class-based resources were introduced in WMF5. They offer a few core differences
 
 If you've put most of your code into a standalone script module, as I recommended in the previous chapter and will elaborate on in the next chapter, then switching from a function-based resource to a class-based resource is easy. In fact, all I'm going to do in this chapter is "translate" what I did in the previous chapter.
 
-However, there's a downside to class-based modules at this time, which is that they don't support filename-based versioning. This makes them a little problematic in real-world applications, because you can't have two versions of a class-based module living side-by-side on nodes or on a pull server. 
+However, there's a downside to class-based modules in WMF 5.0, which is that they don't support filename-based versioning. This makes them a little problematic in real-world applications, because you can't have two versions of a class-based module living side-by-side on nodes or on a pull server.  Filename-based versioning is supported in WMF 5.1.
 
 ## Writing the Class-Based Interface Module
 Here we go: a class-based version of the previous chapter's resource module.
