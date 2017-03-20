@@ -5,7 +5,9 @@ Next, you write the actual _composite_ configuration. This is just a normal conf
 
 The official term for sub-resources is a _composite resource_, because it can take multiple DSC resources and merge, or "composite", them together into a single looks-like-a-resource. Technically, I don't think Microsoft is using the term "composite configurations" anymore, and "composite resource" is more accurate. But "composite configuration" has been thrown around since DSC was invented, so I'm gonna run with it.
 
-I'm going to run through an example that uses code from https://msdn.microsoft.com/en-us/powershell/dsc/authoringresourcecomposite, and add my own explanations and ideas as I go. 
+I'm going to run through an example that uses code from 
+https://msdn.microsoft.com/en-us/powershell/dsc/authoringresourcecomposite
+and add my own explanations and ideas as I go. 
 
 ## Creating a Composite Resource
 Start by writing a perfectly normal DSC resource. You can actually run this on its own, produce a MOF, and test it. Here's the Microsoft example:
