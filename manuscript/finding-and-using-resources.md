@@ -26,7 +26,7 @@ Version    Name                                Repository           Description
 
 I've truncated those results, by the way - you can run the command yourself to see them all. 
 
-**Note** - You may still see online references to the "DSC Resource Kit." That was before Microsoft moved to PowerShell Gallery; you should rely on what's in the Gallery rather than downloading the old Kit.
+**Note** - You may still see online references to the "DSC Resource Kit." Some of these references may include downloads that existed before Microsoft moved to PowerShell Gallery; you should download resources from the Gallery and not from DSC Resource Kit download pages to ensure you're getting the latest and greatest resources. 
 
 _Many_ of the DSC resource authors in the community publish their modules to PowerShell Gallery. If you happen to run across their source code repositories - often GitHub - you should use what's in Gallery rather than downloading the code directly. Often times, what's in Gallery represents a "stable" release, while what's in the source code repo may be a "development branch."
 

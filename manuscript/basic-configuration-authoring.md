@@ -53,8 +53,8 @@ configuration MyConfig {
 	node $ComputerName {
 	
 		WindowsFeature Backups {
-			Ensure = Present
-			Name = Windows-Backup
+			Ensure = 'Present'
+			Name = 'Windows-Backup'
 		}
 		
 	}
@@ -84,7 +84,7 @@ configuration MyConfig {
 		$features = @('windows-backup','dns-server','dhcp-server')
 		ForEach ($feature in $features) {
 			WindowsFeature $feature {
-				Ensure = Present
+				Ensure = 'Present'
 				Name = $feature
 			}
 		}
@@ -157,13 +157,13 @@ configuration MyConfig {
 	node $ComputerName {
 	
 		WindowsFeature Backups {
-			Ensure = Present
-			Name = Windows-Backup
+			Ensure = 'Present'
+			Name = 'Windows-Backup'
 		}
 		
 		WindowsFeature DHCP {
-			Ensure = Present
-			Name = DHCP-Server
+			Ensure = 'Present'
+			Name = 'DHCP-Server'
 		}		
 		
 		CustomDHCPLoader LoadDHCP {

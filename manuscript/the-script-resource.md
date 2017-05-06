@@ -4,7 +4,7 @@ One of the native resources in DSC is the Script resource. This is intended as a
 ## The Basics
 Take a look at this example (for your convenience, this is available in 
 
-http://github.com/concentrateddon/TheDSCBookCode):
+https://github.com/concentrateddon/TheDSCBookCode ):
 
 ```
 Configuration TestUsing {
