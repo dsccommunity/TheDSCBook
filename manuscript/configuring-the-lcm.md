@@ -55,7 +55,7 @@ This is a Globally Unique Identifier (GUID) that you assign to the LCM. In WMF v
 This controls the LCM's actions. The following values are allowed:
 
 * Disabled. The LCM does not run. This is perhaps most often used in cases where a third-party management technology, like Chef, is actually running the show. Chef can use DSC resource modules under the hood, but it doesn't want the actual LCM stepping in and interfering.
-* ApplyOnce. The LCM applies the current configuration, and then stops running until manually run.
+* ApplyOnly. The LCM applies the current configuration, and then stops running until manually run.
 * ApplyAndMonitor. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It does not attempt to fix the configuration, but will report a status to a Reporting Server if so configured.
 * ApplyAndAutoCorrect. The LCM applies the current configuration, and re-checks it on the ConfigurationModeFrequencyMinutes value. It will attempt to fix out-of-compliance configuration settings and, if configured, will report status to a Reporting Server.
 
