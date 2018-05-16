@@ -137,7 +137,7 @@ LCM_Pull
 
 ```
 
-We're using the `AllowSecureConnection = $True` setting since the pull server is only configured for HTTP. The `RegistrationKey` setting must match a registration key that exists in the RegistrationKeys.txt file on the pull server. This is the same GUID that we used when creating the pull server.  This setting is checked at registration time to ensure that the node is authorized to connect to the pull server, and later on subsequent communication with the pull server to retrieve configurations and modules.  
+We're using the `AllowUnsecureConnection = $True` setting since the pull server is only configured for HTTP. The `RegistrationKey` setting must match a registration key that exists in the RegistrationKeys.txt file on the pull server. This is the same GUID that we used when creating the pull server.  This setting is checked at registration time to ensure that the node is authorized to connect to the pull server, and later on subsequent communication with the pull server to retrieve configurations and modules.  
 
 As with all previous examples, execute this configuration in order to create Cli1.meta.mof in the LCM_Pull subdirectory.
 
