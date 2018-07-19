@@ -1,6 +1,9 @@
 # Setting Up a Pull Server
 By now, you should have almost all the basics that you need to begin using DSC. At this point in the book, I'm going to start shifting from simple examples over to more production-scale ones, and that means we're going to need a pull server. _True_, you won't always use a pull server in production. Sometimes, you'll doubtlessly have nodes to which you simply push configurations. That's fine - push mode is easy. But in what I expect will be many more cases, you'll want to use pull mode, and so that's where I'll start.
 
+## Before You Begin
+Know that Microsoft has [designated the "native" Pull Server as EOL, or "End of Life."](https://blogs.msdn.microsoft.com/powershell/2018/04/19/windows-pull-server-planning-update-april-2018/) That means they're not developing any further features, and may not support it for as long as you might want. Their "official" answer is for you to use the DSC services built into Azure Automation, or to find a third-party alternative (like the "Tug" open-source pull server). 
+
 ## Reprising the Roles
 Remember that a single computer, physical or virtual, can run more than one "pull server." After all, a pull server is just an IIS website, and IIS can certainly host more than one website. Should you want to host multiples, you'll have to figure out how to differentiate them. That's a purely IIS question, though. Each website needs some unique combination of IP address, port, and host name, so you can set that up however you want. Since this book isn't about getting gnarly with IIS, I'm going to stick with a single website.
 
@@ -130,4 +133,18 @@ This'll take a while to run; you may want to add -Verbose and -Wait to the comma
 When everything's done, you should be able to view the PhysicalPath on the pull server to confirm that the DSC service endpoint (a .svc file) exists, and you can remotely use IIS Manager to attach to the server, confirm that IIS is running, and confirm that the website details (port, certificate, and so on) are correct.
 
 And I'm deadly serious about the SSL thing. There's an upcoming chapter on DSC security where I'll dig into more specifics on why SSL is so important, and even make a case for client certificate authentication on the pull server.
+
+## Life Choices
+By default, Pull Server (in v5 and later) uses an EDB database. That's the database architecture used by Exchange Server and Active Directory, and it was the only option supported on early versions of Nano Server (when we all thought Nano Server would be a standalone install option one day). EDB databases *require maintenance*, meaning that if you don't clear the logs or set them to auto-cycle, it'll fill up the disk. Yikes. Not a wholly popular decision.
+
+It can also be configured to use the "other" JET database format, MDB, which is what you know and love from Microsoft Access. The less said about that the better, although at least it doesn't fill up your disk.
+
+More recently (April 2018, in Windows Server build 17090), they added the ability to instead use a SQL Server, which is a great option that we recommend heartily. You can use SQL Express, or an existing SQL Server installation on your network. When you create your xDscWebService configuration items, add two keys:
+
+```
+SqlProvider = $true 
+SqlConnectionString = "Provider=SQLNCLI11;Data Source=(local)\SQLExpress;User ID=SA;Password=Password12!;Initial Catalog=master;"
+```
+
+That connection string obviously needs to be valid in your environment; this example is using a local SQL Express instance, and logging in with the horrible, you-should-never-do-this "SA" account. We strongly recommend creating a dedicated account for the pull server to log into SQL Server with or, best yet, getting Windows Integrated authentication to work. But that's a SQL Server issue, not a PowerShell one, so we'll leave it to you and your DBA.
 
