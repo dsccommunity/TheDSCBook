@@ -1,7 +1,6 @@
 {mainmatter}
 
 # Introduction
-
 Desired State Configuration, or DSC, was introduced as part of Windows Management Framework (WMF) 4.0 - the same package that included Windows PowerShell 4.0. DSC is essentially the final step originally envisioned for Windows PowerShell in inventor Jeffrey Snover's _[Monad Manifesto](https://leanpub.com/themonadmanifestoannotated)_. DSC builds upon a decade-long investment in Windows PowerShell that included broad cmdlet coverage, a robust (yet simple) scripting language, Remoting, and more. 
 
 ## What is DSC?
@@ -61,3 +60,19 @@ This is a _huge_ shift in thinking for most Windows administrators. Fortunately,
 
 ## Technology, not Tool
 The other thing to know about DSC is that it's a technology - not a tool. In the same way, Active Directory is a technology, and something like AD Users & Computers is a tool that you use to manage the technology. Today, Microsoft hasn't built a lot of tools to make managing DSC easier - it's a pretty manual, low-level process. That's changing a bit - I have a chapter coming up on DSC in Azure, for example, that shows some of what Microsoft has been building in the way of tools. Just understand that, right now, there are some rough edges around DSC because all we have is the technology, not any tooling to help us use the technology more effectively. But don't let that stop you.
+
+## A 2018 Update: What is DSC Good For?
+This is a question we get asked a lot. As more and more workloads start running on things like containers, where DSC doesn't have a strong role, you might wonder if DSC has a future. We think so, but you first have to understand one thing: there is no one-size-fits-all tool. Meaning, DSC is good for particular scenarios; it's less good for others. So let's think about the kinds of workloads we have. In no particular order:
+
+**Ephemeral**. These are workloads that exist for only a very short period of time, such as a container that's been spun-up to service a particular web request. These workloads require _declarative configuration_, meaning they spin up in their "desired state," perform their job, and then go away. DSC isn't a good fit for these.
+
+**Endpoint**. Desktops, laptops, and other client computers. While DSC _can_ be used for these, we don't feel it's _awesome_ in all client configuration scenarios. DSC isn't a _configuration management_ system; it presently lacks the tooling that could make it a robust client solution. GPO, on the other hand, has that tooling, as do platforms like System Center Configuration Manager. We see people trying to use DSC as a software deployment platform, and it just isn't great at it. Deploying software (let alone patches) to thousands of clients is _hard_, and it's why SCCM is so complex. DSC doesn't match up, because it wasn't designed to. This is triply true if you're deploying MSIs, because so many of them are badly built and DSC has no provisions for dealing with many of them (like ones that require a user profile to be active, which DSC doesn't do). 
+
+**Static and long-lived**. We don't think much about bare-metal servers these days, but by definition they're not something you just deploy in a moment and tear down a moment later. Bare-metal is time-consuming and can be delicate; DSC is a great way at keeping these workloads configured the same way, all the time. Proof? Azure Stack, a bare-metal solution that relies on thousands of liens of DSC code (and more than a few custom resources) to keep its delicate balancing act in order.
+
+**Legacy**. Ephemeral workloads might be the Now Hotness, but we all have (and likely always will have) workloads that require a lot of delicate configuration, need to run in their own VM, and are special snowflakes. DSC can be great at helping to keep these properly configured. You might not ever use DSC to initially build one of these serves, but you might well use it to help control configuration drift on them.
+
+**State-Coupled**. We all have plenty of workloads where the configuration of the workload itself--it's "state," if you will--is part of its install. That is, perhaps the data used by the workload is elsewhere, but the workload's identity and "bootstrap" code is part of the "system drive." Think Exchange Server, SharePoint Server, and SQL Server. These are "kinda special snowflakes" in that they're difficult to rebuild, and by their very nature you wouldn't just tear them down and rebuild them all the domain. Domain controllers fall into this category, because can you imagine the replication workload if you just tore down half your Dns and built them from scratch every night? DSC can also be good at maintaining configuration on these workloads.
+
+We do _not_ see a world where DSC is running on _every single computing workload you own_. The trick is in finding the right place and time, and using the tool how it was intended to be used. Nobody's taking a Camry to an F-1 race, but nobody's saying a Camry is a bad car. You just need the right tool for the workload at hand.
+
