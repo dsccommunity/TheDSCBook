@@ -1,7 +1,6 @@
 {frontmatter}
 
 # About This Book
-
 The 'Forever Edition' of this book is published on [LeanPub](http://leanpub.com), an "Agile" online publishing platform. That means the book is published as we write it, and *that* means although you may not have a complete book right now, you eventually will - and we'll also be able to revise it as needed. We also appreciate your patience with any typographical errors, and we appreciate you pointing them out to us - in order to keep the book as "agile" as possible, we're forgoing a traditional copyedit. Our hope is that you'll appreciate getting the technical content quickly, and won't mind helping us catch any errors we may have made. You paid a bit more for the book than a traditional one, but that up-front price means you can come back whenever you like and download the latest version. We plan to expand and improve the book pretty much forever, so it's hopefully the last one you'll need to buy on this topic!
 
 You'll also find this book offered on traditional booksellers like Amazon. In those cases, the book is sold as a specific edition, such as "Second Edition." These represent a point-in-time snapshot of the book, and are offered at a lower price than the Agile-published version. These traditional editions do not include future updates.

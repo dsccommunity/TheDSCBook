@@ -1,4 +1,4 @@
-front-matter.md
+-front-matter.md
 about-the-authors.md
 feedback.md
 a-note-on-code-listings.md
